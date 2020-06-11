@@ -1,0 +1,37 @@
+function disableFilterOnKeyUp( ) {
+    var disableFilterOnKeyUp = function () {
+            var filters =  $(this).find('.individual_filtering');
+            $(filters).each(function (ind, filter) {
+                $(filter).on('keyup', function (e) {
+                    e.stopImmediatePropagation();
+                });
+            });
+        }.bind( this ),
+        attachMoveItemsListener = function () {
+            $(document).on('click', '.move-items', function( event ) {
+                var oldPosition    = $(this).data('position' ),
+                    oldPositionId  = $(this).data('position-id'),
+                    barcode        = $(this).data('barcode'),
+                    sku            = $(this).data('sku'),
+                    dateExpiration = $(this).data('date-expiration');
+
+                event.preventDefault();
+
+                $('#natue_stockbundle_position_move_from_item_old_stock_position_id').empty();
+                $('#natue_stockbundle_position_move_from_item_barcode').empty();
+                $('#natue_stockbundle_position_move_from_item_sku').empty();
+                $('#natue_stockbundle_position_move_from_item_dateExpiration').empty();
+
+                $('#natue_stockbundle_position_move_from_item_old_stock_position_id').val(oldPosition);
+                $('#natue_stockbundle_position_move_from_item_old_stock_position_id').attr('data-position-id', oldPositionId );
+                $('#natue_stockbundle_position_move_from_item_barcode').val(barcode);
+                $('#natue_stockbundle_position_move_from_item_sku').val(sku);
+                $('#natue_stockbundle_position_move_from_item_dateExpiration').val(dateExpiration);
+            });
+        }
+    ;
+
+    disableFilterOnKeyUp();
+    attachMoveItemsListener();
+}
+

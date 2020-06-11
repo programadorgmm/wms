@@ -1,0 +1,19 @@
+<script id="losted-orders" type="text/x-handlebars-template">
+    <div class="notice-panel">
+        {% verbatim %}
+        {{#each orders}}
+        <div class="alert alert-danger alert-dismissable">
+            O pedido <a href="https://zed.natue.com.br/sales/order-details/index/id/{{id}}" target="_blank">{{incrementId}}</a> está parado a <strong>{{diffDays}} dias</strong>
+
+            {{#if pickingList}}
+                <br/><a href="/shipping/download/picking-list/{{pickingList}}" target="_blank">Lista de Picking: {{pickingList}}</a>
+            {{/if}}
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {{/each}}
+        {% endverbatim %}
+    </div>
+</script>

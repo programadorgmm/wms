@@ -1,0 +1,35 @@
+function disableFilterOnKeyUp( ) {
+    var disableFilterOnKeyUp = function () {
+                var filters =  $(this).find('.individual_filtering');
+                $(filters).each(function (ind, filter) {
+                    $(filter).on('keyup', function (e) {
+                        e.stopImmediatePropagation();
+                    });
+                });
+            }.bind( this ),
+            attachDeleteListener = function () {
+                $(document).on('click', '.delete-purchase-order', function( event ) {
+
+                    var deleteAction = getUrlFromPurchaseOrderId($(this ).data('data-purchase-order-id'));
+
+                    if (deleteAction) {
+                        $('#delete-purchase-order-from-modal').attr('href', deleteAction);
+                    }
+                });
+            }
+            ;
+
+    disableFilterOnKeyUp();
+    attachDeleteListener();
+
+    function getUrlFromPurchaseOrderId(id)
+    {
+        var urlReference = '/stock/purchase-order/{id}/delete';
+
+        if (! id) {
+            return '#';
+        }
+
+        return urlReference.replace('{id}', id);
+    }
+}

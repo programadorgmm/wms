@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Move Product to Position{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    <form action="{{ path('stock_order_return_move_product_to_position', {'orderId':orderId, 'stockItemId':stockItemId }) }}" method="post" {{ form_enctype(form) }}
+          class="form-horizontal">
+
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">{% trans %}Submit{% endtrans %}</button>
+                <a href="{{ path('stock_order_return_items_list', {'orderId':orderId}) }}" class="btn btn-default">{% trans %}Back{% endtrans %}</a>
+            </div>
+        </div>
+    </form>
+{% endblock content %}

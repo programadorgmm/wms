@@ -1,0 +1,63 @@
+<table class="table table-bordered" style="margin:0px; padding:0px; border: none;">
+    <tr class="active">
+        <th class="text-center">valor da nota</th>
+        <th class="text-center">pis/cofins</th>
+        <th class="text-center">icms</th>
+        <th class="text-center">icms-st</th>
+        <th class="text-center">ipi</th>
+        <th class="text-center">desconto</th>
+        <th class="text-center">frete</th>
+        <th class="text-center">custo líquido</th>
+    </tr>
+    <tr class="active">
+        <td class="text-center" style="border-right: 1px solid #dddddd">
+            <span class="label label-success">+</span>
+            {{ item.unit_price|round(2) }}
+        </td>
+        <td class="text-center" style="border-right: 1px solid #dddddd">
+            <span class="label label-danger">-</span>
+            {{ item.unit_pis_cofins|round(2) }}
+        </td>
+        <td class="text-center" style="border-right: 1px solid #dddddd">
+            <span class="label label-danger">-</span>
+            {{ item.unit_icms|round(2) }}
+        </td>
+        <td class="text-center" style="border-right: 1px solid #dddddd">
+            <span class="label label-success">+</span>
+            {{ item.unit_icms_st|round(2) }}
+        </td>
+        <td class="text-center" style="border-right: 1px solid #dddddd">
+            <span class="label label-success">+</span>
+            {{ item.unit_ipi|round(2) }}
+        </td>
+        <td class="text-center" style="border-right: 1px solid #dddddd">
+            <span class="label label-danger">-</span>
+            {{ item.unit_discount|round(2) }}
+        </td>
+        <td class="text-center" style="border-right: 1px solid #dddddd">
+            <span class="label label-success">+</span>
+            {{ item.unit_shipping_cost|round(2) }}
+        </td>
+        <td class="text-center">
+            <span class="label label-warning">=</span>
+            {{ item.unit_cost|round(2) }}
+        </td>
+    </tr>
+    <tr class="active">
+        <td class="text-center" style="border-right: 1px solid #dddddd">{{ item.labels.pis }}</td>
+        <td colspan="2" class="text-center" style="border-right: 1px solid #dddddd">{{ item.labels.icms }}</td>
+        <td colspan="5" class="text-center" style="border-right: 1px solid #dddddd"></td>
+    </tr>
+    <tr>
+        {# PIS  #}
+        <td class="text-center">{{ item.zed_product_pis_label }}</td>
+        {# ICMS  #}
+        <td colspan="2" class="text-center">{{ item.zed_product_icms_label }}</td>
+        <td colspan="5"></td>
+    </tr>
+    {% if item.last_invoice.last_key %}
+    <tr>
+        <td colspan="8">{{ item.last_invoice.last_key }}</td>
+    </tr>
+    {% endif %}
+</table>

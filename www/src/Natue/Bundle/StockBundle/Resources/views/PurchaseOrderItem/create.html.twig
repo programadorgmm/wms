@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_ITEM_READ')") %}
+        <a href="{{ path('stock_purchase_order_item_list', {'id': id}) }}" class="btn btn-default pull-right">{% trans %}Purchase Order{% endtrans %}</a>
+    {% endif %}
+
+    {% trans %}Create Purchase Order Item{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    <form action="{{ path('stock_purchase_order_item_create', {'id': id}) }}" method="post" {{ form_enctype(form) }}
+          class="form-horizontal">
+        {{ form_widget(form) }}
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">{% trans %}Submit{% endtrans %}</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock content %}

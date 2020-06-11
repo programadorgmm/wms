@@ -1,0 +1,27 @@
+Positions: Posições
+Pickable: Pickable
+Inventory: Inventário
+Create Position: Criar Posição
+Update Position: Editar Posição
+Position already exist: Posição já existe
+Purchase Orders: Pedidos de Compra
+Ordered At: Pedido Em
+Expected At: Esperado Para
+Invoice Key: Chave da Nota
+Total of Volumes: Total de Volumes
+Total Cost: Custo Total
+'In cents, for example 1010 is $10.10': 'Em centavos, por exemplo 1010 é R$10,10'
+Create Purchase Order: Criar Pedido de Compra
+Invoice key already exists: Chave da nota já existe
+Create Purchase Order: Criar Pedido de Compra
+Update Purchase Order: Editar Pedido de Compra
+Ordered Date: Data do Pedido
+Expected Delivery Date: Expectitiva de Chegada
+External ID: ID Externo
+Supplier: Fornecedor
+See Items: Ver Items
+Actual Delivery Date: Data de Entregea
+Cost: Custo
+Clear: Limpar
+'Do you want to download the PDF? <a href="%url%">Click here</a>': 'Você deseja baixar o PDF? <a href="%url%">Clique aqui</a>'
+Requested Invoice Cost: Custo Negociado em Nota

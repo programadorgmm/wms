@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_ITEM_READ')") %}
+        <a href="{{ path('stock_purchase_order_item_list', {'id': purchaseOrder.id}) }}"
+           class="btn btn-default pull-right">{% trans %}See Items{% endtrans %}</a>
+    {% endif %}
+    {% trans %}Update Purchase Order{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    <form action="{{ path('stock_purchase_order_update', {'id': purchaseOrder.id}) }}"
+          method="post" {{ form_enctype(form) }} class="form-horizontal">
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">{% trans %}Submit{% endtrans %}</button>
+                {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_DELETE')") %}
+                    <a href="{{ path('stock_purchase_order_delete', {'id': purchaseOrder.id}) }}"
+                       onclick="javascript:return confirm('{% trans %}Are you sure?{% endtrans %}');"
+                       class="btn btn-danger pull-right"><i class="glyphicon glyphicon-trash"></i> {% trans %}
+                        Delete{% endtrans %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+{% endblock content %}

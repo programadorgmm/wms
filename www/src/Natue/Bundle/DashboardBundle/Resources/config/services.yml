@@ -1,0 +1,7 @@
+parameters:
+  natue.dashboard.handler.class:  Natue\Bundle\DashboardBundle\Service\DashboardHandler
+
+services:
+  natue.dashboard.handler:
+    class: %natue.dashboard.handler.class%
+    arguments:  [@doctrine]

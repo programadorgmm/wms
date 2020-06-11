@@ -1,0 +1,100 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+	{% trans %}Expedition Control{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+
+{% set hasOrder = false %}
+
+{% for name, provider in orders %}
+	{% if provider.packages %}
+
+	{% set hasOrder = true %}
+
+	<div class="row">
+		<h3>{{ name|capitalize }}
+			<small>| {% trans %} Duplicated: {% endtrans %}
+			{% if check_duplicity_package(provider.id) %}
+				{% trans %} YES {% endtrans %}
+			{% else %}
+				{% trans %} NO {% endtrans %}
+			{% endif %}
+			</small>
+		</h3>
+
+		<table class="table table-condensed table-hover table-bordered">
+			<thead>
+				<th>{% trans %} Box Type {% endtrans %}</th>
+				<th width="300">{% trans %} Quantity {% endtrans %}</th>
+			</thead>
+			<tbody>
+				{% for packages in provider.packages %}
+				<tr>
+					<td>{{ packages.name  }}</td>
+					<td>{{ packages.total }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% if order_in_progress_of_sold(provider.id) is not empty %}
+			<button class="btn btn-danger btn-sm pull-right btn-expedition" name="{{name}}" id="{{ provider.id }}">
+				{% trans %} in process... {% endtrans %}
+			</button>
+		{% else %}
+			<button class="btn btn-primary btn-sm pull-right btn-expedition" name="{{name}}" id="{{ provider.id }}">
+				{% trans %} Send {% endtrans %}
+			</button>
+		{% endif %}
+	</div>
+	{% endif %}
+{% endfor %}
+
+{% if hasOrder is empty %}
+	<div class="row">
+		<div class="text-warning col-md-12">
+			{% trans %} No Registration Found! {% endtrans %}
+		</div>
+	</div>
+{% endif %}
+
+{% block javascripts %}
+    {% javascripts '@NatueShippingBundle/Resources/public/js/translations.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+<script type="text/javascript">
+	$('.btn-expedition').on('click', function(){
+		var el = $(this);
+
+		swal({
+			title: $.i18n._('expedition_orders'),
+			text:  $.i18n._('action_will_issue_orders_from', $(this).attr('name')),
+			type: "info",
+			showCancelButton: true,
+			closeOnConfirm: false,
+			showLoaderOnConfirm: true,
+		}, function(){
+			$.ajax({
+				type        : 'PUT',
+				url         : 'logistic-provider/expedition-orders',
+				data        : { id: el.attr('id') },
+				dataType    : 'json',
+				success	: function() {
+					swal($.i18n._("good_job"), $.i18n._("successfully_issue"), "success")
+					el.removeClass('btn-primary')
+					el.addClass('btn-danger')
+					el.removeAttr( "id" )
+					el.off()
+					el.html($.i18n._('In process...'));
+				},
+				error   : function() {
+					swal($.i18n._("error_issue"), $.i18n._("something_went_wrong"), "error")
+				},
+			});
+		});
+	});
+</script>
+{% endblock %}
+{% endblock %}

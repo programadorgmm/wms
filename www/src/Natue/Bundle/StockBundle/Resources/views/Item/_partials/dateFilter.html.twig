@@ -1,0 +1,16 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <form role="form" method="get" class="form-inline">
+            <div class="form-group">
+                <div class="input-group">
+                    <input name="date" value="{{ dateTime|date('Y-m-d') }}"
+                           type="date"
+                           class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-default">{% trans %}Update date{% endtrans %}</button>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,123 @@
+Welcome to WMS: Bem-vindo(a) ao WMS
+Users: Usuários
+Groups: Grupos
+System: Sistema
+Stock: Estoque
+Picking & Shipping: Separação e Envio
+Orders: Pedidos
+Positions: Posições
+Purchase Orders: Pedidos de Compra
+Purchase Order: Pedido de Compra
+Order Request: Pedidos de Mercadoria
+Receive Purchase Order: Conferencia de Mercadoria
+Move by position: Mover pela posição
+Move items from barcode: Mover items pelo código
+Picking List: Lista de Separação
+Collect New Orders: Captura de Pedidos
+Collected Orders and Labels: Impressão de pedidos e etiquetas de envio
+Conference: Conferência
+Packing: Embalagem
+Pack Orders: Fechamento/Embalar Pedido
+Average Products Cost: Custos de Mercadoria Avariada
+Shipping: Envio
+Expedit Orders: Expedição de Pedidos
+Expedit Control: Controle de Expedição
+Orders: Pedidos
+Return: Retorno de Pedido
+Actions: Ações
+History: Histórico
+Picking: Em Separação
+To Picking: Para Separar
+Today lists: Listas de hoje
+List today: Lista de Hoje
+Grand total: Total
+Logistic provider: Transportadoras
+Waiting For Picking: Picando
+waiting_for_picking_description: Items aguardando a conferência
+Assigned: Atribuído
+Picked: Conferido
+Ready For Shipping: Para Expedir
+Sold: Expedido
+Mono-sku: Pedidos com SKU único
+Date: Data
+Day: Dia
+Total to be processed: Total a ser processado
+Select a request order: Selecione um pedido de mercadoria
+Create a new: Criar um novo
+Request Order: Pedido de Mercadoria
+Distributing single volume for: Atribuição de posição
+Select Purchase Order: Chave de nota
+Volumes amount: Volumes para guardar
+Scan barcode to input Invoice Key or Purchase Order Id: Scaneie a chave de nota
+Pickable: Pronto
+Move items by position: Mover items pela posição
+From position: Posição atual
+To position: Posição destino
+Picking list: Lista de pedidos
+Mono SKU: SKU único
+Logistics Provider: Transportadora
+Orders Amount: Quantidade de pedidos
+Comma separated: Valores separados por virgula
+Generate: Gerar
+Shipping Picking Lists: Listas geradas
+Shipping Picking List: Lista de Separação
+Shipping Picking List | mono sku: Lista de Separação | sku único
+Reference Date: Data
+Operator: Operador
+Position: Posição
+Brand: Marca
+Barcode: Código de Barras
+Box<br/>N&deg;: Cesta <br/>N&deg;
+Customer Box Information: Informações sobre as cestas
+Box Number: Cesta Número
+Customer Informations: Nome do Cliente
+Picking list and labels checking: Conferência
+Scan Increment Id: Scaneie o número do pedido
+Lookup for the related order of the picking list: Verificar se o pedido é válido
+Find: Procurar
+Packing Orders: Fechamento/Embalar pedido
+Order Barcode: Código do pedido
+Order barcode starts with BR and followed by numbers: O código do pedido começa com BR seguido de números
+Select: Selecionar
+Scan Package Barcode: Tamanho da caixa
+Shipping Barcode: Código de envio
+Package Type: Tipo de pacote
+Customer Name: Nome do cliente
+Increment Id: Código do pedido
+Expedition Control: Controle de Expedição
+Select an order for refund: Pedido cancelado
+Lookup for the order to refund: Verifique o pedido cancelado
+Confirm checking: Confirmar conferência
+Cancel: Cancelar
+Scan Item Barcode: Scanear o código de barras
+Order Item: Item do pedido
+Scan barcode: Scaneie o código de barras dos produtos
+Customer: Cliente
+Order: Pedido
+Progress: Progresso
+Loaded Items: Items conferidos
+Validate: Conferir
+Order checked: Pedido conferido
+After successful verification the invoice will created automatically: Após a conferência a nota será criada automaticamente, não é necessário acessar o ZED
+Picking list number %id% created! <a href="%url%" target="_blank">Click here</a> to download it.: Lista de picking número %id% criada! <a href="%url%">Clique aqui</a> para baixar
+Download Picking List: Baixar lista de picking
+Download Expedition Labels: Baixar etiquetas de expedição
+Download Invoices: Baixar Notas Fiscais
+Order is not waiting for picking: Pedido não pode ser conferido pois não foi tirada lista de picking dele
+Regenerate PDFs: Gerar PDFs novamente
+Download Invoices: Baixar notas Fiscais
+Picking Observation: Obervação de envio
+Read carefully before proceed: Leia atentamente as observações escritas antes de continuar
+Processing: Processando
+Monday: Segunda Feira
+Tuesday: Terça Feira
+Wednesday: Quarta Feira
+Thursday: Quinta Feira
+Friday: Sexta Feira
+Saturday: Sábado
+Sunday: Domingo
+Approval Date: Date de Aprovação
+Open: Abrir
+In Progress Label: Processando
+Assigned Label: A Processar
+Number of Items: Items na Lista

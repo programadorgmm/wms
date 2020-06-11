@@ -1,0 +1,39 @@
+<script id="table-transporter" type="text/x-handlebars-template">
+<div class="well-table">
+    <h4>{% trans %} Logistic provider {% endtrans %}</h4>
+    <table class="open-modal table table-hover table-striped">
+        <thead>
+            <th>{% trans %} Name                  {% endtrans %}</th>
+            <th>{% trans %} Picking               {% endtrans %}</th>
+            <th>{% trans %} To Picking            {% endtrans %}</th>
+            <th>{% trans %} Today lists           {% endtrans %}</th>
+            <th>{% trans %} Total to be processed {% endtrans %}</th>
+        </thead>
+        <tbody>
+            {% verbatim %}
+            {{#each providers}}
+            <tr>
+                <td>{{@key}}</td>
+                {{#each this}}
+                    <td>{{this}}</td>
+                {{/each}}
+            </tr>
+            {{/each}}
+            {% endverbatim %}
+            <tr class="total">
+                <td>{% trans %} Total {% endtrans %}</td>
+                {% verbatim %}
+                {{#each total}}
+                    <td>{{this}}</td>
+                {{/each}}
+                {% endverbatim %}
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% block javascripts %}
+    {% javascripts '@NatueCoreBundle/Resources/public/js/core/transporter.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascripts %}
+</script>

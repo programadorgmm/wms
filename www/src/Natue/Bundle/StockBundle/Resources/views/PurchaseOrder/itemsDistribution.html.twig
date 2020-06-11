@@ -1,0 +1,83 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    Purchase Order, Items distribution<br/>
+    Invoice Key: {{ purchaseOrder.invoiceKey }}
+{% endblock headline %}
+
+{% block content %}
+
+    <form action="{{ path('stock_purchase_order_items_distribution', {'id': purchaseOrder.id} ) }}"
+          method="post" {{ form_enctype(form) }}
+          class="form-horizontal">
+
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">{% trans %}Put{% endtrans %}</button>
+            </div>
+        </div>
+    </form>
+
+
+    <h2>Distributed items</h2>
+
+    <table class="table table-hover table-bordered pedroteixeira-grid-table">
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Product Name</th>
+                <th>Total Requested Quantity</th>
+                <th>Current Distribution</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in gridData %}
+                <tr>
+                    <td>{{ row.sku }}</td>
+                    <td>{{ row.productName }}</td>
+                    <td>{{ row.totalRequestedQuantity }}</td>
+                    <td>
+                        {% for cell in row.currentDistribution %}
+                            <dl class="dl-horizontal">
+                                <dt>Position</dt>
+                                <dd>{{ cell.positionName }}</dd>
+
+                                <dt>Item Barcode</dt>
+                                <dd>{{ cell.stockItemBarcode }}</dd>
+
+                                <dt>Expiration Date</dt>
+                                <dd>{{ cell.dateExpiration|date("m/d/Y") }}</dd>
+
+                                <dt>Receiving Quantity</dt>
+                                <dd>{{ cell.receivingQuantity }}</dd>
+                            </dl>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="{{ path('stock_purchase_order_confirm_volume_distribution') }}" method="post" {{ form_enctype(form) }}
+          class="form-horizontal">
+
+        {{ form_widget(confirmationForm) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit"
+                        class="btn btn-primary">
+                    {% trans %}Confirm volume reception{% endtrans %}
+                </button>
+
+                <a href="{{ path('stock_purchase_order_cancel_volume_distribution', {'purchaseOrderId': purchaseOrder.id}) }}"
+                   class="btn btn-default btn-sm">
+                    {% trans %}Cancel{% endtrans %}
+               </a>
+            </div>
+        </div>
+    </form>
+
+{% endblock content %}

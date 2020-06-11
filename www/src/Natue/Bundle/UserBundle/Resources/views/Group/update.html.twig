@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Update Group{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    <form action="{{ path('user_group_update', {'id': group.id}) }}" method="post" {{ form_enctype(form) }}
+          class="form-horizontal">
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">{% trans %}Submit{% endtrans %}</button>
+                {% if is_expr_granted("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_USER_GROUP_DELETE')") %}
+                    <a href="{{ path('user_group_delete', {'id': group.id}) }}"
+                       onclick="javascript:return confirm('{% trans %}Are you sure?{% endtrans %}');"
+                       class="btn btn-danger pull-right"><i class="glyphicon glyphicon-trash"></i> {% trans %}
+                        Delete{% endtrans %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+{% endblock content %}

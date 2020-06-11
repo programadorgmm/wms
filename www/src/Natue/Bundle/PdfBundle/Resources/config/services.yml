@@ -1,0 +1,12 @@
+parameters:
+  natue.barcode.handler.class:  Natue\Bundle\PdfBundle\Service\BarcodeHandler
+  natue.pdf.handler.class:      Natue\Bundle\PdfBundle\Service\PdfHandler
+
+services:
+  natue.barcode.handler:
+    class: %natue.barcode.handler.class%
+    arguments: [@service_container]
+
+  natue.pdf.handler:
+    class: %natue.pdf.handler.class%
+    arguments: [@templating, @knp_snappy.pdf, @natue.barcode.handler, @service_container]

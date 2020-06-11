@@ -1,0 +1,83 @@
+parameters:
+  natue.locale.listener.class:      Natue\Bundle\CoreBundle\EventListener\LocaleListener
+  natue.twig.listener.class:        Natue\Bundle\CoreBundle\EventListener\TwigDateListener
+  natue.track_user.listener.class:  Natue\Bundle\CoreBundle\EventListener\TrackUserListener
+
+  natue.file.handler.class:         Natue\Bundle\CoreBundle\Service\FileHandler
+  natue.file.handler.fs.class:      Natue\Bundle\CoreBundle\Service\FileHandler\FS
+  natue.file.handler.s3.class:      Natue\Bundle\CoreBundle\Service\FileHandler\S3
+
+  natue.batch.processing.class:     Natue\Bundle\CoreBundle\Service\BatchProcessing
+
+  aws.sdk.s3.class:                 Aws\S3\S3Client
+
+  file.handler.s3.path.save:        /tmp/s3/
+  file.handler.fs.path.save:        %kernel.root_dir%/../web/files/
+
+services:
+    natue.locale.listener:
+        class: %natue.locale.listener.class%
+        arguments:
+            - %kernel.default_locale%
+        tags:
+            - { name: kernel.event_subscriber }
+
+    natue.twig.listener:
+        class: %natue.twig.listener.class%
+        arguments:
+            - @twig
+            - %date_format%
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    natue.track_user.listener:
+        class: %natue.track_user.listener.class%
+        arguments:
+            - @natue.util.user_callable
+        tags:
+            - { name: doctrine.event_listener, event: prePersist, method: prePersist }
+
+    natue.file.handler:
+        class: %natue.file.handler.class%
+        arguments:
+            - @kernel
+            - %file.handler.service%
+
+    natue.file.handler.fs:
+        class: %natue.file.handler.fs.class%
+        arguments:
+            - %file.handler.fs.path.save%
+
+    natue.batch.processing:
+        class: %natue.batch.processing.class%
+        arguments:
+            - @doctrine
+
+    aws.sdk.s3:
+        class: %aws.sdk.s3.class%
+        factory_class: %aws.sdk.s3.class%
+        factory_method: factory
+        arguments:
+            - { key: %file.handler.s3.key%, secret: %file.handler.s3.secret% }
+
+    natue.file.handler.s3:
+        class: %natue.file.handler.s3.class%
+        arguments:
+            - @aws.sdk.s3
+            - %file.handler.s3.bucket%
+            - %file.handler.s3.path.save%
+
+
+    natue_datatables.query:
+        class: Natue\Bundle\CoreBundle\Datatable\Query\DatatableDataManager
+        arguments:
+            - '@request_stack'
+            - '@sg_datatables.serializer'
+            - '@twig'
+            - '%sg_datatables.datatable.query%'
+            - '%kernel.bundles%'
+
+    natue.ucwords:
+            class: Natue\Bundle\CoreBundle\Twig\UcWordsExtension
+            tags:
+                - { name: twig.extension }

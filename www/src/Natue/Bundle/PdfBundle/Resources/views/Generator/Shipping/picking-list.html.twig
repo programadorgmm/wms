@@ -1,0 +1,70 @@
+{% extends 'NatuePdfBundle:Base:layout.html.twig' %}
+
+{% block content %}
+    <h1 style="width: 50%; float: left">{% trans %}Shipping Picking List{% endtrans %}</h1>
+
+    <h3 style="width: 40%; float: right">
+        {% trans %}Reference Date{% endtrans %}: {{ created_at|date('d/m/Y') }}<br/>
+        {% trans %}Operator{% endtrans %}: {{ user }}
+        {% trans %}Number of Items: {% endtrans %} {{ quantity }}
+    </h3>
+
+    <div class="clear"></div>
+
+    <table>
+        <thead>
+            <tr>
+                <th width="15%">{% trans %}Position{% endtrans %}</th>
+                <th width="2%">{% trans %}Qty{% endtrans %}</th>
+                <th>{% trans %}Brand{% endtrans %}</th>
+                <th width="15%">{% trans %}Barcode{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}Box<br/>N&deg;{% endtrans %}</th>
+                <th>{% trans %}Obs{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+
+                <tr>
+                    <td>{{ item.positionName }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.brand }}</td>
+                    <td>{{ item.barcode|slice(0,20) }}</td>
+                    <td>{{ item.productName|slice(0,33) }}</td>
+                    <td>{{ customersMap[item.incrementId].tempBoxNumber }}</td>
+                    <td width="5%">
+                        {% if item.checkExpirationFlag %}
+                            {% trans %} EC {% endtrans %}
+                        {% endif %}
+
+                        {% if item.fkSubscription %}
+                            {% trans %} BOX {% endtrans %}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="page">
+        <h1>{% trans %}Customer Box Information{% endtrans %}</h1>
+
+        <table>
+          <thead>
+            <tr>
+                <th>{% trans %}Box Number{% endtrans %}</th>
+                <th>{% trans %}Customer Informations{% endtrans %}</th>
+            </tr>
+            </thead>
+          <tbody>
+            {% for row in customersMap %}
+                <tr>
+                    <td>{{ row.tempBoxNumber }}</td>
+                    <td>{{ row.customerName }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

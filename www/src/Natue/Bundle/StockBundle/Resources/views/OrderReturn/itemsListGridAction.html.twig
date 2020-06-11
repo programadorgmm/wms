@@ -1,0 +1,5 @@
+{% spaceless %}
+    <a href="{{ path('stock_order_return_move_product_to_position', {'orderId': row.zedOrderId, 'stockItemId': row.stockItemId}) }}" class="btn btn-default btn-xs">
+        <i class="glyphicon glyphicon-share-alt"></i> {% trans %}Move Product to Position{% endtrans %}
+    </a>
+{% endspaceless %}

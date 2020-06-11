@@ -1,0 +1,62 @@
+services:
+    natue.invoice.util.filters.alpha_num_only:
+        class: Natue\Bundle\InvoiceBundle\Util\Filters\AlphaNumericOnlyFilter
+
+    natue.invoice.util.filters.remove_special_chars:
+        class: Natue\Bundle\InvoiceBundle\Util\Filters\RemoveSpecialCharsFilter
+
+    natue.invoice.taxman.connector:
+        class: Natue\Bundle\InvoiceBundle\Taxman\Connectors\GuzzleConnector
+        arguments: ['%taxman.uri%']
+
+    natue.invoice.taxman.client:
+        class: Natue\Bundle\InvoiceBundle\Taxman\Client
+        arguments: ['@natue.invoice.taxman.connector']
+
+    natue.invoice.taxman.invoice_factory.string_filter:
+        class: Natue\Bundle\InvoiceBundle\Util\Filters\PipelineFilter
+        arguments:
+            filters:
+                - '@natue.invoice.util.filters.alpha_num_only'
+                - '@natue.invoice.util.filters.remove_special_chars'
+
+    natue.invoice.taxman.invoice_factory:
+        class: Natue\Bundle\InvoiceBundle\Taxman\InvoiceFactory
+        arguments:
+            - '@natue.invoice.taxes.factory'
+            - '@natue.invoice.taxman.invoice_factory.string_filter'
+
+    natue.invoice.taxman.service:
+        class: Natue\Bundle\InvoiceBundle\Services\TaxmanService
+        arguments:
+            - '@natue.invoice.taxman.invoice_factory'
+            - '@natue.invoice.taxman.client'
+
+    natue.invoice.taxes.factory:
+        class: Natue\Bundle\InvoiceBundle\Taxes\TaxesFactory
+
+    natue.invoice.number.repository:
+        class: Natue\Bundle\InvoiceBundle\Respoitory\InvoiceNumberRepository
+        factory: ['@doctrine', 'getRepository']
+        arguments:
+            - 'NatueInvoiceBundle:InvoiceNumber'
+
+    natue.invoice.number.service:
+        class: Natue\Bundle\InvoiceBundle\Services\InvoiceNumberService
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@natue.invoice.number.repository'
+
+    natue.invoice.repository:
+        class: Natue\Bundle\InvoiceBundle\Respoitory\InvoiceRepository
+        factory: ['@doctrine', 'getRepository']
+        arguments:
+            - 'NatueInvoiceBundle:Invoice'
+
+    natue.invoice.service:
+        class: Natue\Bundle\InvoiceBundle\Services\InvoiceService
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@natue.invoice.repository'
+            - '@natue.invoice.number.service'
+            - '@natue.invoice.taxman.service'

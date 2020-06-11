@@ -1,0 +1,53 @@
+{% spaceless %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_ITEM_UPDATE')") %}
+        <a href="{{ path('stock_item_update', {
+            'sku'           : row.productSku,
+            'positionId'    : row[0].stockPosition.id,
+            'status'        : row[0].status,
+            'barcode'       : row[0].barcode,
+            'dateExpiration': row[0].dateExpiration | date('Y-m-d')
+        }) }}" class="btn btn-default btn-xs">
+        <i class="glyphicon glyphicon-pencil"></i>
+            {% trans %}Edit{% endtrans %}
+        </a>
+
+        {% if row[0].status == 'ready' %}
+        <a href="#" class="btn btn-primary btn-xs move-items"
+            data-toggle="modal"
+            data-target="#myModal"
+            data-position="{{ row[0].stockPosition.name }}"
+            data-position-id="{{ row[0].stockPosition.id }}"
+            data-barcode="{{ row[0].barcode }}"
+            data-sku="{{ row.productSku }}"
+            data-date-experation="{{ row[0].dateExpiration | date('Y-m-d') }}">
+        <i class="glyphicon glyphicon-move"></i>
+            {% trans %}Move{% endtrans %}
+        </a>
+        {% endif %}
+    {% endif %}
+
+    {% block javascripts %}
+        <script type="text/javascript">
+            $(function() {
+                $('.move-items').click(function(){
+                    $('#natue_stockbundle_position_move_from_item_old_stock_position_id').empty();
+                    $('#natue_stockbundle_position_move_from_item_barcode').empty();
+                    $('#natue_stockbundle_position_move_from_item_sku').empty();
+                    $('#natue_stockbundle_position_move_from_item_dateExpiration').empty();
+
+                    var oldPosition    = $(this).data('position');
+                    var oldPositionId  = $(this).data('position-id');
+                    var barcode        = $(this).data('barcode');
+                    var sku            = $(this).data('sku');
+                    var dateExpiration = $(this).data('date-expiration');
+
+                    $('#natue_stockbundle_position_move_from_item_old_stock_position_id').val(oldPosition);
+                    $('#natue_stockbundle_position_move_from_item_old_stock_position_id').attr('data-position-id', oldPositionId );
+                    $('#natue_stockbundle_position_move_from_item_barcode').val(barcode);
+                    $('#natue_stockbundle_position_move_from_item_sku').val(sku);
+                    $('#natue_stockbundle_position_move_from_item_dateExpiration').val(dateExpiration);
+                });
+            });
+        </script>
+      {% endblock javascripts %}
+{% endspaceless %}

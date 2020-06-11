@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Welcome to WMS{% endtrans %}  - <span>{{ "now"|date("l")|trans }}, {{ "now"|date('d/m/Y') }}</span>
+    <div class="pull-right">
+        <div id="button-action-render"></div>
+    </div>
+{% endblock headline %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-6 statuses">
+        <!-- concern status -->
+        <div id="table-assigned-render" class="dashboard-panel dashboard-panel-status"></div>
+        <div id="table-waiting_for_picking-render" class="dashboard-panel dashboard-panel-status"></div>
+        <div id="table-picked-render" class="dashboard-panel dashboard-panel-status"></div>
+        <div id="table-ready_for_shipping-render" class="dashboard-panel dashboard-panel-status"></div>
+        <div id="table-sold-render" class="dashboard-panel dashboard-panel-status"></div>
+
+        <!-- mono sku -->
+        <div id="table-mono-sku-render" class="dashboard-panel dashboard-panel-status"></div>
+    </div>
+
+    <div class="col-sm-6">
+        <div id="progress-panel-render"></div>
+        <div id="losted-orders-render"></div>
+    </div>
+</div>
+
+{% block javascripts %}
+    {% javascripts '@NatueCoreBundle/Resources/public/js/core/dashboard.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascripts %}
+
+{% include 'NatueCoreBundle:Default:_templates/buttonAction.html.twig' %}
+{% include 'NatueCoreBundle:Default:_templates/progress.html.twig' %}
+{% include 'NatueCoreBundle:Default:_templates/lostedOrders.html.twig' %}
+{% include 'NatueCoreBundle:Default:_templates/concern.html.twig' with {'status': 'assigned', 'description': '', 'withOrderList': true, 'withoutOperator': true } %}
+{% include 'NatueCoreBundle:Default:_templates/concern.html.twig' with {'status': 'waiting_for_picking', 'description': 'waiting_for_picking_description', 'withOrderList': true, 'withPickingList': true } %}
+{% include 'NatueCoreBundle:Default:_templates/concern.html.twig' with {'status': 'picked', 'description': '', 'withOrderList': true, 'withPickingList': true } %}
+{% include 'NatueCoreBundle:Default:_templates/concern.html.twig' with {'status': 'ready_for_shipping', 'description': '', 'withOrderList': true, 'withOrderList': true , 'withPickingList': true} %}
+{% include 'NatueCoreBundle:Default:_templates/concern.html.twig' with {'status': 'mono-sku', 'description': '' } %}
+{% endblock content %}

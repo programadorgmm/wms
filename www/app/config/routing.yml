@@ -1,0 +1,62 @@
+NatueCoreBundle:
+    resource: "@NatueCoreBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+NatueUserBundle:
+    resource: "@NatueUserBundle/Controller/"
+    type:     annotation
+    prefix:   /user
+
+NatueShippingBundle:
+    resource: "@NatueShippingBundle/Controller/"
+    type:     annotation
+    prefix:   /shipping
+
+NatueStockBundle:
+    resource: "@NatueStockBundle/Controller/"
+    type:     annotation
+    prefix:   /stock
+
+NatuePdfBundle:
+    resource: "@NatuePdfBundle/Controller/"
+    type:     annotation
+    prefix:   /pdf
+
+NatueZedBundle:
+    resource: "@NatueZedBundle/Controller/"
+    type:     annotation
+    prefix:   /zed
+
+NatueDashboardBundle:
+    resource: "@NatueDashboardBundle/Controller/"
+    type:     annotation
+    prefix:   /dashboard
+
+NatueInvoiceBundle:
+    resource: "@NatueInvoiceBundle/Controller/"
+    type:     annotation
+    prefix:   /invoice
+
+# FOS User
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix:   /profile
+
+fos_user_profile_show:
+    pattern:  /
+    defaults: { _controller: NatueCoreBundle:Default:index }
+
+# Zenstruck Form
+zenstruck_form:
+    resource: "@ZenstruckFormBundle/Resources/config/ajax_entity_routing.xml"
+
+sg_datatables_bundle:
+    resource: "@SgDatatablesBundle/Controller/"
+    type:     annotation
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

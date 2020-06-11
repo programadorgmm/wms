@@ -1,0 +1,86 @@
+<table class="table table-bordered" style="padding: 0px;">
+    <tr>
+        {# Sequence #}
+        <td style="width: 3%; vertical-align: middle;" class="{{ tableClass }}">{{ item.nfe_sequential }}</td>
+        {# Content #}
+        <td style="width: 97%">
+            <table class="table table-condensed" style="margin:0px; padding: 0px">
+                <tr class="table-bordered">
+                    <th>quantidade</th>
+                    <th>sku</th>
+                    <th>nome</th>
+                    <th>ncm</th>
+                    <th>cfop</th>
+                    <th>pedido</th>
+                </tr>
+                {# product info #}
+                <tr class="table-bordered">
+                    <td>{{ item.quantity }}</td>
+                    <td><a href="{{ zed_product_link|format(item.zed_product_id) }}" target="_blank">{{ item.zed_product_sku }}</a></td>
+                    <td><a href="{{ zed_product_link|format(item.zed_product_id) }}" target="_blank">{{ item.zed_product_name }}</a></td>
+                    <td>{{ item.zed_product_ncm }}</td> {# Change to zed ncm #}
+                    <td>{{ item.last_invoice.cfop }}</td> {# CFOP #}
+                    <td>{{ item.request_quantity }}</td>
+                </tr>
+                <tr class="table-bordered active">
+                    <td>{{ item.supplier.quantity }}</td>
+                    <td>{{ item.supplier.sku }}</td>
+                    <td>{{ item.supplier.description }}</td>
+                    <td>{{ item.supplier.ncm }}</td> {# NCM #}
+                    <td>{{ item.supplier.cfop }}</td> {# CFOP #}
+                    <td></td>
+                </tr>
+                {# requested invoice cost #}
+                <tr>
+                    <td colspan="6" style="margin: 0px; padding: 0px; padding-top: 15px">
+                        <table class="table table-bordered" style="margin:0px; padding:0px; border: none;">
+                            <tr class="active">
+                                <th class="text-center" style="width: 50%">
+                                    {% if item.zed_product_cost %}
+                                        custo acordado
+                                    {% else %}
+                                        custo médio
+                                    {% endif %}
+                                </th>
+                                <th class="text-center" style="width: 50%">valor da nota atual</th>
+                            </tr>
+                            <tr>
+                                <td class="text-center cost_diff {{
+                                    item.requested_invoice_cost_flag|default(constant('Natue\\Bundle\\StockBundle\\Service\\PurchaseOrderItemXml::NOT_CHANGE_FLAG'))
+                                }}">
+                                    {% if item.zed_product_cost %}
+                                        {{ item.zed_product_cost|round(2) }}
+                                    {% else %}
+                                        {{ item.zed_product_average_cost|round(2) }}
+                                    {% endif %}
+                                </td>
+                                <td class="text-center cost_diff {{
+                                    item.requested_invoice_cost_flag|default(constant('Natue\\Bundle\\StockBundle\\Service\\PurchaseOrderItemXml::NOT_CHANGE_FLAG'))
+                                }}">
+                                    {{ item.unit_price|round(2) }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center cost_diff {{
+                                    item.requested_invoice_cost_flag|default(constant('Natue\\Bundle\\StockBundle\\Service\\PurchaseOrderItemXml::NOT_CHANGE_FLAG'))
+                                }}">
+                                    {% if item.requested_invoice_cost_percent is defined  %}
+                                        {{ item.requested_invoice_cost_percent }}%
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                {# costs and taxes #}
+                <tr>
+                    <td colspan="6" style="margin: 0px; padding: 0px; padding-top: 15px">
+                        {% include 'NatueStockBundle:PurchaseOrderItem/_partials:costsAndTaxes.html.twig' with {'item' : item} %}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

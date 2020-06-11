@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block page_header %}
+    <h2>{% trans %}Items{% endtrans %}</h2>
+{% endblock page_header %}
+
+{% block content %}
+    {{ include('NatueStockBundle:Item/_partials:modal.html.twig',
+        {
+            'form_move': form
+        }
+    )}}
+
+    <div class="stock-item-list">
+        {{ datatable_render(datatable) }}
+    </div>
+<script>
+    $( window ).load(function() {
+
+        setTimeout(function(){
+
+            $("#dt_item_grid thead tr td").last().append("<button id='clear-filter' class='btn btn-warning margin-left'> {{ clear }}</button>");
+
+            $( "#clear-filter" ).click(function() {
+                $('input:text').val('');
+                $('#dt_item_grid-sg-filter-0').val('').change();
+            });
+
+        }, 2000);
+    });
+</script>
+{% endblock content %}

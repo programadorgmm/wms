@@ -1,0 +1,7 @@
+/**
+* Override select2 css for the case we're using a form with raw select2
+* (we override the css of the field "roles" from src/Natue/Bundle/UserBundle/Form/Type/Group.php)
+*/
+.select2-container {
+	display: block;
+}

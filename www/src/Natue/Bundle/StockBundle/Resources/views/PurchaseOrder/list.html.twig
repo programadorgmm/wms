@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_CREATE')") %}
+        <a href="{{ path('stock_purchase_order_create') }}" class="btn btn-primary pull-right">{% trans %}
+            Create{% endtrans %}</a>
+    {% endif %}
+
+    {% trans %}Purchase Orders{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    {{ include('NatueStockBundle:PurchaseOrder/_partials:deleteModal.html.twig') }}
+
+    <div class="purchase-order-item-list">
+        {{ datatable_render(datatable) }}
+    </div>
+{% endblock content %}

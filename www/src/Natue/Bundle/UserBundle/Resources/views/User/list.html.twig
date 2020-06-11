@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% if is_expr_granted("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_USER_GROUP_CREATE')") %}
+        <a href="{{ path('user_user_create') }}" class="btn btn-primary pull-right">{% trans %}Create{% endtrans %}</a>
+    {% endif %}
+
+    {% trans %}Users{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    {{ pedroteixeira_grid(grid) }}
+{% endblock content %}

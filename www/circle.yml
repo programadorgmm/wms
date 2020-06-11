@@ -1,0 +1,20 @@
+dependencies:
+  pre:
+    - sudo add-apt-repository -y 'deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu precise main'
+    - sudo apt-get update
+  override:
+    - sudo DEBIAN_FRONTEND=noninteractive apt-get remove --purge libapache2-mod-php5
+    - sudo DEBIAN_FRONTEND=noninteractive apt-get install -y php5-gd barcode wkhtmltopdf
+    - sudo cp /usr/lib/php5/20131226/* /home/ubuntu/php/extensions/
+    - cp app/config/parameters_circleci.yml app/config/parameters.yml
+    - cp app/config/parameters_circleci.yml app/config/parameters_dev.yml
+    - npm install
+    - composer install --prefer-source --no-interaction
+
+database:
+  override:
+    - app/console doctrine:migrations:migrate --env=circleci --no-interaction
+
+test:
+  override:
+    - bin/robo test:phpunit-circle-ci

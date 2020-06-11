@@ -1,0 +1,27 @@
+<script id="table-waiting-for-picking" type="text/x-handlebars-template">
+    <div class="well-table">
+        <h4>{% trans %} Waiting For Picking {% endtrans %}</h4>
+        <table class="table table-hover table-striped">
+            <thead>
+                <th> {% trans %} Date {% endtrans %} </th>
+                {% verbatim %}
+                    {{#each headers}}
+                        <th>{{ this }}</th>
+                    {{/each}}
+                {% endverbatim %}
+            </thead>
+            <tbody>
+                {% verbatim %}
+                {{#each waiting_for_picking.dates}}
+                <tr>
+                    <td>{{ @key }}</td>
+                    {{#each this}}
+                        <td>{{this}}</td>
+                    {{/each}}
+                </tr>
+                {{/each}}
+                {% endverbatim %}
+            </tbody>
+        </table>
+    </div>
+</script>

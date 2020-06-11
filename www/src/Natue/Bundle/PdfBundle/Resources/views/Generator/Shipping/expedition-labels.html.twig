@@ -1,0 +1,31 @@
+{% extends 'NatuePdfBundle:Base:layout.html.twig' %}
+
+{% block content %}
+    {% for order in orders %}
+        <div class="page width-a7">
+            <div class="header">{% trans %}Destination{% endtrans %}</div>
+            <div class="container">
+                <p>
+                    <strong>{{ order.customerName|slice(0, 52) }}</strong><br>
+                    {{ order.addressLine1 }}<br>
+                    {% if not order.customerAdditional is empty %}
+                        {{ order.customerAdditional|slice(0, 50) }}<br>
+                    {% endif %}
+
+                    {% if not order.addressReference is empty %}
+                        <em class="sm">{{ order.addressReference|slice(0, 45) }}</em><br>
+                    {% endif %}
+
+                    {{ order.quarter }}<br>
+                    {{ order.city }} / {{ order.state }}<br>
+                    <strong>{{ order.zipcode|slice(0, 5) }}-{{ order.zipcode|slice(5, 3) }}</strong>
+                </p>
+
+                <div class="tariff-name">{{ order.tariffName }}</div>
+                <div class="barcode">
+                    <img class="barcode" src="{{ asset(order.barcodePath) }}">
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

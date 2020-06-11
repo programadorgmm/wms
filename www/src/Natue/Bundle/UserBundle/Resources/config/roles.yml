@@ -1,0 +1,48 @@
+role:
+    admin:
+    super_admin:
+
+    user:
+        group:
+            create:
+            read:
+            update:
+            delete:
+
+        user:
+            create:
+            read:
+            update:
+            delete:
+
+    shipping:
+        picking_list:
+
+    stock:
+        position:
+            create:
+            read:
+            update:
+            delete:
+        purchase_order:
+            create:
+            read:
+            update:
+            delete:
+            receive_volumes:
+        purchase_order_item:
+            create:
+            read:
+            update:
+            delete:
+            csv:
+        item:
+            read:
+            update:
+            move:
+            move_from_position:
+        order_return:
+
+    pdf:
+        generate:
+            purchase_order_volume:

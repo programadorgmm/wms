@@ -1,0 +1,39 @@
+parameters:
+    natue.shipping.picking_manager.class: Natue\Bundle\ShippingBundle\Service\PickingManager
+    natue.shipping.packing_manager.class: Natue\Bundle\ShippingBundle\Service\PackingManager
+    natue.shipping.scanner_storage.class: Natue\Bundle\ShippingBundle\Service\ScannerStorage
+
+services:
+    repository.packed_order:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Natue\Bundle\ShippingBundle\Entity\PackedOrder
+
+    natue.shipping.picking_manager:
+        class: %natue.shipping.picking_manager.class%
+        arguments: [@doctrine, @security.context, @natue.stock.item.manager, @natue.pdf.handler, @natue.barcode.handler ]
+
+    natue.shipping.packing_manager:
+        class: %natue.shipping.packing_manager.class%
+        arguments: [@doctrine, @security.context, @natue.stock.item.manager]
+        calls:
+            - [setPackedOrderRepository, ["@repository.packed_order"]]
+
+    natue.shipping.scanner_storage:
+        class: %natue.shipping.scanner_storage.class%
+        arguments: [@session]
+
+    natue.shipping.check_duplicity_package:
+        class: Natue\Bundle\ShippingBundle\Twig\CheckDuplicityPackageExtension
+        tags:
+            - { name: twig.extension }
+        arguments:
+            - @doctrine.orm.entity_manager
+
+    natue.shipping.order_in_progress_of_sold:
+        class: Natue\Bundle\ShippingBundle\Twig\OrderInProgressOfSoldExtension
+        tags:
+            - { name: twig.extension }
+        arguments:
+            - "@service_container"

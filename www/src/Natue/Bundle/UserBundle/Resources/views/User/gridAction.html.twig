@@ -1,0 +1,11 @@
+{% spaceless %}
+    {% if is_expr_granted("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_USER_USER_UPDATE')") %}
+        <a href="{{ path('user_user_update', {'id': row.id}) }}" class="btn btn-default btn-xs"><i
+                    class="glyphicon glyphicon-pencil"></i> {% trans %}Edit{% endtrans %}</a>
+    {% endif %}
+    {% if is_expr_granted("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_USER_USER_DELETE')") %}
+        <a href="{{ path('user_user_delete', {'id': row.id}) }}"
+           onclick="javascript:return confirm('{% trans %}Are you sure?{% endtrans %}');" class="btn btn-danger btn-xs"><i
+                    class="glyphicon glyphicon-trash"></i> {% trans %}Delete{% endtrans %}</a>
+    {% endif %}
+{% endspaceless %}

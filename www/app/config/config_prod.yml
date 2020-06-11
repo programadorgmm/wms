@@ -1,0 +1,53 @@
+imports:
+    - { resource: config.yml }
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        console:
+            type:  console
+
+services:
+    pdo:
+        class: PDO
+        arguments:
+            - "mysql:host=%database_host%;dbname=%database_name%"
+            - "%database_user%"
+            - "%database_password%"
+        calls:
+            - [setAttribute, [3, 2]] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+
+# Snc Redis
+snc_redis:
+    clients:
+        prod:
+            type: predis
+            alias: production
+            dsn: %redis_path%
+        doctrine:
+            type: predis
+            alias: doctrine
+            dsn: %doctrine_redis_path%
+    session:
+        client: production
+        prefix: natue:session:production
+        use_as_default: true
+        ttl: 7200
+        
+    doctrine:
+        metadata_cache:
+            client: doctrine
+            entity_manager: default
+        query_cache:
+            client: doctrine
+            entity_manager: default
+        result_cache:
+            client: doctrine
+            entity_manager: default

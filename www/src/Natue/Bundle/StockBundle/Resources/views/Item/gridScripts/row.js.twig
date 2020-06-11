@@ -1,0 +1,23 @@
+function row( nRow, aData ) {
+    var addDataAttributesOnMoveItemsButton = function ( nRow, aData ) {
+        var moveItemsButtons = $( nRow ).find('.move-items' ),
+            moveItemsButton;
+
+        if (moveItemsButtons.length === 0) {
+            return ;
+        }
+
+        moveItemsButton = moveItemsButtons.first();
+
+        moveItemsButton.attr('href', '#');
+        moveItemsButton.data('position', aData.stockPosition ? aData.stockPosition.name : null);
+        moveItemsButton.data('position-id', aData.stockPosition ? aData.stockPosition.id : null);
+        moveItemsButton.data('barcode', aData.barcode);
+        moveItemsButton.data('sku', aData.zedProduct.sku);
+        moveItemsButton.data('date-expiration', aData.dateExpiration);
+   };
+
+    addDataAttributesOnMoveItemsButton( nRow, aData );
+
+    return nRow;
+}

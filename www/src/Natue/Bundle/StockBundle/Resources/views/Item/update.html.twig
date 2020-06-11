@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Update Stock Item{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    <form action="{{ path('stock_item_update', {'sku': sku, 'positionId': positionId, 'status': status, 'barcode': barcode, 'dateExpiration': dateExpiration|date('Y-m-d')}) }}" method="post" {{ form_enctype(form) }}
+          class="form-horizontal">
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">{% trans %}Submit{% endtrans %}</button>
+            </div>
+        </div>
+    </form>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+
+{% block page_header %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_INVENTORY_CREATE')") %}
+        <a href="{{ path('stock_inventory_create') }}" class="btn btn-primary pull-right">
+            {% trans %}New Inventory{% endtrans %}</a>
+    {% endif %}
+
+    <h1>{% trans %}Inventory items{% endtrans %}</h1>
+    <h3>{% trans %}Position{% endtrans %}: {{ inventory.stockPosition.name }}</h3>
+    <h4>{% trans %}User{% endtrans %}: {{ inventory.getUser.getName }}</h4>
+    <h4>{{ inventory.finishedAt|date("d/m/Y H:i:s") }}</h4>
+{% endblock page_header %}
+
+{% block content %}
+
+    {{ pedroteixeira_grid(grid) }}
+
+{% endblock content %}

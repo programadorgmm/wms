@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Average Products Cost{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+
+    {{ include('NatueStockBundle:Item/_partials:dateFilter.html.twig', { 'dateTime': dateTime }) }}
+
+    {{ pedroteixeira_grid(grid) }}
+
+{% endblock content %}

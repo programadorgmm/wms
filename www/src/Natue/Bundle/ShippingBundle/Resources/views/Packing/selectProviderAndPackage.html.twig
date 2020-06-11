@@ -1,0 +1,192 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Expedit Orders{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-6">
+      <div class="span12" id="alert-box" style="display: none;">
+          <div class="alert alert-danger">
+            <p></p>
+          </div>
+      </div>
+
+      <div class="span12" id="success-box" style="display: none;">
+          <div class="alert alert-success">
+            <p></p>
+          </div>
+      </div>
+
+      <form action="{{ path('shipping_packing_choose_order') }}" {{ form_enctype(form) }}
+            method="POST" name="expedition_form"
+            class="form-horizontal">
+
+          {{ form_widget(form) }}
+
+          <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-9">
+                  <button type="submit" class="btn btn-primary ">{% trans %}Submit{% endtrans %}</button>
+              </div>
+          </div>
+      </form>
+      <div class="row" id="packageCounter">
+        <ul class="list-group">
+           {% for key, package in packageCounter %}
+              <li class='list-group-item'>
+                <span class='badge'> {{ package }} </span>
+                {{ key }}
+              </li>
+           {% endfor %}
+        </ul>
+      </div>
+  </div>
+
+  <div class="row">
+  <div class="col-sm-6">
+    <table id="tableExpeditionList" class="table table-striped table-hover table-bordered
+     {{ expeditionList is defined ? '' : 'hide' }}" >
+      <thead>
+        <th>{% trans %} Increment Id {% endtrans %}</th>
+        <th>{% trans %} Customer Name {% endtrans %}</th>
+        <th>{% trans %} Package Type {% endtrans %}</th>
+      </thead>
+      <tbody>
+        {% for expedition in expeditionList %}
+          <tr>
+          <td> {{ expedition.incrementId  }} </td>
+          <td> {{ expedition.customerName }} </td>
+          <td> {{ expedition.packageType  }} </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  {% block javascripts %}
+    <script type="text/javascript">
+      // init bunch of sounds
+      ion.sound({
+          sounds: [
+              { name: "camera_flashing" },
+              { name: "computer_error"  }
+          ],
+
+          // main config
+          path: "/bundles/natuecore/sounds/",
+          preload: true,
+          multiplay: false,
+          volume: 10
+      });
+
+      function postForm($form) {
+        var values = {};
+
+        $.each($form.serializeArray(), function(i, field) {
+            values[field.name] = field.value;
+        });
+
+        $.ajax({
+          type        : $form.attr( 'method' ),
+          url         : $form.attr( 'action' ),
+          data        : values,
+          dataType    : 'json',
+          beforeSend  : function() {
+            $("#success-box").hide();
+            $("#alert-box").hide();
+          },
+          success     : function(data) {
+            $(".alert-success p").html(data.message);
+            $("#success-box").show();
+            write_order_check('');
+
+            list_package_counter(data);
+
+            expedition_list(data);
+
+            ion.sound.play("camera_flashing");
+
+          },
+          error     : function(data) {
+            $(".alert-danger p").html(data.responseJSON.message);
+            $("#alert-box").show();
+            write_order_check(data.responseJSON.recheckOrder);
+
+            ion.sound.play("computer_error");
+          },
+          complete  : function() {
+            $("#natue_shippingbundle_packing_logistic_provider_and_package_form_order_increment_id").val('').focus();
+
+            if (is_shipping_correios()) {
+              $("#natue_shippingbundle_packing_logistic_provider_and_package_form_shipping_track_code").val('');
+            }
+          },
+        });
+      }
+
+      function list_package_counter(data){
+        $('#packageCounter ul').empty();
+
+        $.each(data.packageCounter, function(key, counter){
+          $('#packageCounter ul').append(
+            "<li class='list-group-item'><span class='badge'>"+ counter +"</span>" + key + "</li>"
+          );
+        });
+      }
+
+      function expedition_list (data) {
+      $('#tableExpeditionList').removeClass('hide');
+      $('#tableExpeditionList tbody').empty();
+
+      $.each(data.expeditionList, function(key, value){
+        $('#tableExpeditionList tbody').append(
+          "<tr>"                      +
+          "<td>" + value.incrementId  + "</td>" +
+          "<td>" + value.customerName + "</td>" +
+          "<td>" + value.packageType  + "</td>" +
+          "</tr>"
+        );
+      });
+      }
+
+      function write_order_check(order_increment_id) {
+        $("#natue_shippingbundle_packing_logistic_provider_and_package_form_order_recheck").val(order_increment_id);
+      }
+
+      function is_shipping_correios() {
+        var shipping_label = $("#s2id_natue_shippingbundle_packing_logistic_provider_and_package_form_logistics_provider_id > a > span").html();
+        return (shipping_label.match(/correios/i) != null);
+      }
+
+      function set_shipping_track_code(shipping_barcode) {
+        $("#natue_shippingbundle_packing_logistic_provider_and_package_form_shipping_track_code").val(shipping_barcode);
+      }
+
+      function clear_shipping_track_code() {
+        set_shipping_track_code('');
+      }
+
+      function get_shipping_provider_label() {
+        return $("#s2id_natue_shippingbundle_packing_logistic_provider_and_package_form_logistics_provider_id > a > span").html();
+     }
+
+      $(document).ready(function(){
+        $("form[name='expedition_form']").submit(function (e) {
+          e.preventDefault();
+          postForm($(this));
+          return false;
+        });
+
+        $("#natue_shippingbundle_packing_logistic_provider_and_package_form_logistics_provider_id").on('change', function() {
+          if (!is_shipping_correios()) {
+            set_shipping_track_code(get_shipping_provider_label());
+          } else {
+            clear_shipping_track_code();
+          }
+        });
+      });
+    </script>
+  {% endblock %}
+{% endblock content %}

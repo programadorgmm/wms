@@ -1,0 +1,6 @@
+{% spaceless %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_INVENTORY_LIST_ITEMS')") %}
+        <a href="{{ path('stock_inventory_list_items', {'inventoryId': row.id}) }}" class="btn btn-default btn-xs">
+            <i class="glyphicon glyphicon-list"></i> {% trans %}Items{% endtrans %}</a>
+    {% endif %}
+{% endspaceless %}

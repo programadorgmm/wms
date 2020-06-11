@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Select a request order{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    <a class="btn btn-primary" href="{{ path('order-request_new') }}">
+        {% trans %}Create a new{% endtrans %} {% trans %}Request Order{% endtrans %}
+    </a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{% trans %}Id{% endtrans %}</th>
+            <th>{% trans %}Description{% endtrans %}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('order-request_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.description }}</td>
+                <td>
+                    <a class="btn btn-primary"  href="{{ path('order-request_show', { 'id': entity.id }) }}">Show</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

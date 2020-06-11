@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  wms_server:
+    build:
+      context: ./docker/php
+    container_name: 'wms_server'
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - wms_database
+      - wms_redis
+    volumes:
+      - ./www:/var/www/html
+      - ./config/php/php.ini:/usr/local/etc/php/php.ini
+      - ./config/vhosts:/etc/apache2/sites-enabled
+      - ./logs/apache2:/var/log/apache2
+  wms_database:
+    build:
+      context: "./docker/mysql"
+    container_name: 'wms_database'
+    restart: 'always'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./logs/mysql:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: natue
+      MYSQL_DATABASE: development_wms
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+  wms_redis:
+    image: redis:latest
+    container_name: 'wms_redis'
+    ports:
+      - "6379:6379"
+
+

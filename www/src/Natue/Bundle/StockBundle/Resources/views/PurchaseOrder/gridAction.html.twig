@@ -1,0 +1,15 @@
+{% spaceless %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_ITEM_READ')") %}
+        <a href="{{ path('stock_purchase_order_item_list', {'id': row.purchaseOrderId}) }}" class="btn btn-default btn-xs"><i
+                    class="glyphicon glyphicon-list"></i> {% trans %}Items{% endtrans %}</a>
+    {% endif %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_UPDATE')") %}
+        <a href="{{ path('stock_purchase_order_update', {'id': row.purchaseOrderId}) }}" class="btn btn-default btn-xs"><i
+                    class="glyphicon glyphicon-pencil"></i> {% trans %}Edit{% endtrans %}</a>
+    {% endif %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_DELETE')") %}
+        <a href="{{ path('stock_purchase_order_delete', {'id': row.purchaseOrderId}) }}"
+           onclick="javascript:return confirm('{% trans %}Are you sure?{% endtrans %}');" class="btn btn-danger btn-xs"><i
+                    class="glyphicon glyphicon-trash"></i> {% trans %}Delete{% endtrans %}</a>
+    {% endif %}
+{% endspaceless %}

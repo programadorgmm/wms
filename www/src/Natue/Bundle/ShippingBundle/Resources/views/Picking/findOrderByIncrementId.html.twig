@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Picking list and labels checking{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    <form action="{{ path('shipping_picking_find_order_by_increment_id') }}" method="post" {{ form_enctype(form) }}
+          class="form-horizontal">
+
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">{% trans %}Find{% endtrans %}</button>
+            </div>
+        </div>
+    </form>
+  {% block javascripts %}
+    <script type="text/javascript">
+      $(function() {
+        $("#natue_shippingbundle_picking_order_increment_id_lookup_form_increment_id").focus();
+      });
+    </script>
+  {% endblock javascripts %}
+{% endblock content %}
+

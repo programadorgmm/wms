@@ -1,0 +1,46 @@
+datepicker.close: Fechar
+'Your browser is very <strong>old</strong>! <a target="_blank" href="http://browsehappy.com/">Upgrade it please</a>.': 'Seu browser é muito <strong>antigo</strong>! <a target="_blank" href="http://browsehappy.com/">Atualize por favor</a>.'
+Logout: Sair
+Change Password: Mudar Senha
+Bad credentials: Dados incorretos
+Add: Adicionar
+Edit: Editar
+Delete: Apagar
+Create: Criar
+Action: Ação
+Submit: Enviar
+Created: Criado
+Deleted: Apagado
+Error of form subission: Erro no formulário
+Updated: Atualizado
+Are you sure?: Tem certeza?
+Name: Nome
+Quantity: Quantidade
+quantity: quantidade
+Error on form submission: Erro no envio do formulário
+Enabled: Habilitado
+Disabled: Desabilitado
+Created At: Criado Em
+Type: Tipo
+All: Tudo
+Image: Imagem
+Description: Descrição
+Required: Obrigatório
+Yes: Sim
+No: Não
+Not found: Não encontrado
+Print: Imprimir
+User: Usuário
+Created By: Criado Por
+Qty: Qtde
+Search: Procurar
+'Loading...': 'Carregando...'
+'Warning!': 'Atenção!'
+Error: Erro
+'Do you want to edit this row? <a href="%url%">Click here</a>': 'Quer editar esse registro? <a href="%url%">Clique aqui</a>'
+name: nome
+request: pedido
+'unit cost': 'valor da nota'
+discount: desconto
+shipping: frete
+cost: 'custo líquido'

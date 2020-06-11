@@ -1,0 +1,178 @@
+{% extends 'MopaBootstrapBundle::base_initializr.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+{# HEAD STYLE #}
+{% block head_style %}
+    {% stylesheets
+        '@NatueCoreBundle/Resources/public/less/bootstrap.less'
+        '@PinanoSelect2Bundle/Resources/public/css/select2.css'
+        '@PinanoSelect2Bundle/Resources/public/css/select2-bootstrap.css'
+        '@PedroTeixeiraGridBundle/Resources/public/css/grid.css'
+        '@NatueCoreBundle/Resources/public/less/style.less'
+        '@NatueCoreBundle/Resources/public/css/datepicker.css'
+        '@NatueCoreBundle/Resources/public/css/select2.css'
+        '@NatueCoreBundle/Resources/public/css/sweetalert.css'
+        '@NatueCoreBundle/Resources/public/css/jsgrid.min.css'
+        '@NatueCoreBundle/Resources/public/css/jsgrid-theme.min.css'
+        output='css/style_compiled.css'
+    %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+    {% endstylesheets %}
+
+    {% if diagnostic_mode %}
+        {% stylesheets
+            '@MopaBootstrapBundle/Resources/public/css/diagnostic.css'
+            output='css/screen_diagnostic.css'
+        %}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+        {% endstylesheets %}
+    {% endif %}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.20/daterangepicker.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/u/bs/jszip-2.5.0,pdfmake-0.1.18,dt-1.10.12,b-1.2.1,b-colvis-1.2.1,b-flash-1.2.1,b-html5-1.2.1,b-print-1.2.1,r-2.1.0/datatables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css"/>
+{% endblock head_style %}
+
+
+{# HEAD SCRIPTS #}
+{% block head_scripts %}
+    {# Load jQuery from Google CDN
+       http://encosia.com/3-reasons-why-you-should-let-google-host-jquery-for-you/ #}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    {% javascripts
+        '@MopaBootstrapBundle/Resources/public/js/modernizr-2.7.1-respond-1.4.2.min.js'
+        '@PinanoSelect2Bundle/Resources/public/js/select2.js'
+        '@ZenstruckFormBundle/Resources/public/js/helper.js'
+        '@NatueCoreBundle/Resources/public/js/script.js'
+        '@NatueCoreBundle/Resources/public/js/ion.sound.min.js'
+        '@NatueCoreBundle/Resources/public/js/i18n.js'
+        '@NatueCoreBundle/Resources/public/js/handlebars.js'
+        '@NatueCoreBundle/Resources/public/js/jsgrid.min.js'
+        output='js/head_compiled.js'
+    %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.20/daterangepicker.min.js"></script>
+    <script src="https://cdn.datatables.net/u/bs/jszip-2.5.0,pdfmake-0.1.18,dt-1.10.12,b-1.2.1,b-colvis-1.2.1,b-flash-1.2.1,b-html5-1.2.1,b-print-1.2.1,r-2.1.0/datatables.min.js"></script>
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock head_scripts %}
+
+
+{# BROWSER WARNING #}
+{% block body_start %}
+    <!--[if lt IE 10]>
+    <div class="browser-alert alert alert-danger">
+        {% trans %}Your browser is very <strong>old</strong>! <a target="_blank" href="http://browsehappy.com/">Upgrade it please</a>.{% endtrans %}
+    </div>
+    <![endif]-->
+{% endblock body_start %}
+
+
+{# PAGE HEADER #}
+{% block page_header %}
+    <div class="page-header">
+        <h2>{% block headline %}>NATUE.WMS{% endblock headline %}</h2>
+    </div>
+{% endblock page_header %}
+
+
+{# NAVBAR #}
+{% block navbar %}
+{% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, inverse: true } %}
+    {% block brand %}
+        <a class="navbar-brand" href="{{ path('homepage') }}">NATUE.WMS</a>
+    {% endblock %}
+
+    {% block menu %}
+        {{ mopa_bootstrap_menu('NatueCoreBundle:Builder:mainMenu') }}
+        {{ mopa_bootstrap_menu('NatueCoreBundle:Builder:rightMenu') }}
+    {% endblock %}
+{% endembed %}
+{% endblock navbar %}
+
+
+{# CONTENT ROW #}
+{% block content_row %}
+    <div class="row-fluid">
+        {% block content %}{% endblock content %}
+    </div>
+{% endblock content_row %}
+
+
+{# FLASH MESSAGES #}
+{% block flashes %}
+    {% if app.session.flashbag.peekAll|length > 0 %}
+        <div class="row-fluid">
+            <div class="span12">
+                {{ session_flash(true, true) }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock flashes %}
+
+
+{# FOOTER #}
+{% block footer %}
+    <p>&copy; <a href="http://www.natue.com.br" title="NATUE" target="_blank">NATUE</a> {{ "now"|date("Y") }}</p>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('language', {'language': 'pt_BR'}) }}"><img src="{{ asset('bundles/natuecore/img/icon-brazil.png') }}"/></a> <a href="{{ path('language', {'language': 'en_US'}) }}"><img src="{{ asset('bundles/natuecore/img/icon-usa.png') }}"/></a>
+    {% endif %}
+{% endblock footer %}
+
+
+{# FOOTER SCRIPTS #}
+{% block foot_script %}
+    {# Asynchronous Google Analytics snippet grabbed from:
+       http://mathiasbynens.be/notes/async-analytics-snippet#dont-push-it #}
+    {# more GA tweaks:
+       http://html5boilerplate.com/docs/ga-augments/ #}
+    {% if google['analytics'] is defined %}
+    <script>
+        var _gaq = [['_setAccount', '{{ google['analytics'] }}'], ['_trackPageview']];
+        (function(d, t) {
+            var g = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+            g.async = g.src = '//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g, s);
+        }(document, 'script'));
+    </script>
+    {% endif %}
+
+    {#
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/affix.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/carousel.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/modal.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/scrollspy.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/tab.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/transition.js'
+    '@MopaBootstrapBundle/Resources/public/js/eyecon-bootstrap-datepicker.js'
+    #}
+    {% javascripts
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/collapse.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/modal.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/tooltip.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/alert.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/button.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/dropdown.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/popover.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/modal.js'
+        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+        '@MopaBootstrapBundle/Resources/public/js/html5bp_plugins.js'
+        '@MopaBootstrapBundle/Resources/public/js/html5bp_script.js'
+        '@PedroTeixeiraGridBundle/Resources/public/js/grid.js'
+        '@NatueCoreBundle/Resources/public/js/bootstrap-datepicker.js'
+        '@NatueCoreBundle/Resources/public/js/sweetalert.min.js'
+        output='js/foot_compiled.js'
+    %}
+
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="{{ app.request.locale }}">
+{% block head %}
+    <head>
+        <meta charset="{{ _charset }}" />
+
+        {% block head_style %}
+            <style type="text/css">
+                body {
+                    font-family: Calibri, Helvetica, Sans-Serif;
+                }
+
+                div.width-a7 {
+                    width: 362px;
+                    height: 248px;
+                }
+            
+                div.header {
+                    width: 100%;
+                    background-color: #000;
+                    color: #FFF;
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+                div.container {
+                    overflow: hidden;
+                }
+
+                div.container p { 
+                    font-size: 1.05em;
+                    margin-top: 2px;
+                    padding-top: 2px;
+                }
+
+                div.page {
+                    page-break-after: always;
+                    page-break-inside: avoid;
+                }
+
+                div.page:last-of-type {
+                    page-break-after: auto;
+                }
+
+                div.barcode {
+                    width: 321px;
+                    text-align: center;
+                    margin: 0 21px;
+                }
+
+                img.barcode {
+                  width: 320px;
+                }
+
+                span.sm {
+                    font-size: 0.8em;
+                }
+
+                div.tariff-name {
+                    text-align: center;
+                    font-size: 0.9em;
+                }
+
+
+                table {
+                    font-size: 0.8em;
+                    border: 1px solid #dddddd;
+                    width: 100%;
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                }
+
+                    table td,
+                    table th {
+                        padding: 5px;
+                        border: 1px solid #dddddd;
+                    }
+            </style>
+        {% endblock head_style %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+{% endblock head %}
+
+<body>
+
+{% block body %}
+    {% block content %}
+    {% endblock content %}
+{% endblock body %}
+
+</body>
+</html>

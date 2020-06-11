@@ -1,0 +1,18 @@
+function row( nRow, aData ) {
+    var addDataAttributesOnDeleteActionLink = function ( nRow, aData ) {
+        var deleteItemsLinks = $( nRow ).find('.delete-purchase-order' ),
+                deleteItemsLink;
+
+        if (deleteItemsLinks.length === 0) {
+            return ;
+        }
+
+        deleteItemsLink = deleteItemsLinks.first();
+        deleteItemsLink.attr('href', '#');
+        deleteItemsLink.data('data-purchase-order-id', aData.id ? aData.id : null);
+    };
+
+    addDataAttributesOnDeleteActionLink( nRow, aData );
+
+    return nRow;
+}

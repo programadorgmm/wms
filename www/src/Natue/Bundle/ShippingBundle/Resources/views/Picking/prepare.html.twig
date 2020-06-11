@@ -1,0 +1,71 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Picking list{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+  <div class="row">
+      <div class="col-md-6">
+          <form action="{{ path('shipping_picking_post_orders_list') }}" method="post" {{ form_enctype(explicitForm) }}
+                class="form-horizontal">
+
+              {{ form_widget(explicitForm) }}
+
+              <div class="form-group">
+                  <div class="col-sm-offset-3 col-sm-9">
+                      <button type="submit" class="btn btn-primary">{% trans %}Submit{% endtrans %}</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+
+      <div class="col-md-6">
+          <form action="{{ path('shipping_picking_post_orders_amount') }}" method="post" {{ form_enctype(numeralForm) }}
+                class="form-horizontal">
+
+              {{ form_widget(numeralForm) }}
+
+              <div class="form-group">
+                  <div class="col-sm-offset-3 col-sm-9">
+                      <button type="submit" class="btn btn-primary">{% trans %}Generate{% endtrans %}</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+
+
+    {% block javascripts %}
+      <script type="text/javascript">
+        $(function() {
+          $('form').submit(function(){
+            $('button').prop('disabled', true);
+          });
+
+          orderAmountInputBehavior();
+        });
+
+        function orderAmountInputBehavior() {
+          var monoSkuCheckBox = $('#natue_shippingbundle_picking_numeral_orders_form_mono_sku');
+          var ordersAmountInput = $('#natue_shippingbundle_picking_numeral_orders_form_orders_amount');
+          ordersAmountInput.attr('required', 'required');
+
+          monoSkuCheckBox.change(function(){
+
+            if(monoSkuCheckBox.is(':checked')) {
+              ordersAmountInput.removeAttr("required");
+              ordersAmountInput.val('');
+              ordersAmountInput.attr('disabled', 'disabled');
+
+                return;
+            }
+
+            ordersAmountInput.removeAttr("disabled");
+            ordersAmountInput.attr('required', 'required');
+          });
+        }
+      </script>
+    {% endblock javascripts %}
+
+{% endblock content %}

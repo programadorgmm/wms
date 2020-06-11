@@ -1,0 +1,9 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Create a new{% endtrans %} {% trans %}Request Order{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    {{ form(form) }}
+{% endblock %}

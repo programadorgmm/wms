@@ -1,0 +1,171 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+framework:
+    #esi:             ~
+    translator:      { fallback: en_US }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:         ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ NatueCoreBundle, MopaBootstrapBundle, PedroTeixeiraGridBundle, NatueShippingBundle, NatueDashboardBundle ]
+    filters:
+        cssrewrite: ~
+        less:
+            node_paths:        [ %node_module_path% ]
+            node:              %node_base_path%
+            apply_to:          "\.less$"
+            formatter:         "compressed"
+            preserve_comments: false
+        uglifyjs2:
+            bin:      %node_module_path%/.bin/uglifyjs
+            apply_to: "\.js$"
+        uglifycss:
+            bin:      %node_module_path%/.bin/uglifycss
+            apply_to: "\.css$"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+                mapping_types:
+                    enum: string
+                # if using pdo_sqlite as your database driver, add the path in parameters.yml
+                # e.g. database_path: "%kernel.root_dir%/data/data.db3"
+                # path:     "%database_path%"
+            zed:
+                driver:   "%zed_database_driver%"
+                host:     "%zed_database_host%"
+                port:     "%zed_database_port%"
+                dbname:   "%zed_database_name%"
+                user:     "%zed_database_user%"
+                password: "%zed_database_password%"
+                charset:  UTF8
+                mapping_types:
+                    enum: string
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+
+        dql:
+            string_functions:
+                concat_ws: Natue\Bundle\CoreBundle\DQL\ConcatWsFunction
+            datetime_functions:
+                date: Natue\Bundle\CoreBundle\DQL\DateFunction
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+# FOS User
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Natue\Bundle\UserBundle\Entity\User
+    group:
+        group_class: Natue\Bundle\UserBundle\Entity\Group
+
+
+# MOPA Bootstrap
+mopa_bootstrap:
+    menu: ~
+    initializr:
+        meta:
+            title:       "NATUE.WMS"
+            description: "NATUE.WMS"
+            keywords:    "NATUE.WMS"
+            author_name: "NATUE"
+            author_url:  "http://www.natue.com.br"
+            nofollow:    true
+            noindex:     true
+        dns_prefetch:
+            - "//ajax.googleapis.com"
+        diagnostic_mode: false
+
+    form:
+        render_optional_text:     false
+        render_required_asterisk: true
+        render_fieldset:          false
+        show_legend:              false
+
+#KNP
+knp_paginator:
+    page_range: 5
+    default_options:
+        page_name:           page
+        sort_field_name:     sort
+        sort_direction_name: direction
+        distinct:            true
+    template:
+        pagination: KnpPaginatorBundle:Pagination:sliding.html.twig
+        sortable:   KnpPaginatorBundle:Pagination:sortable_link.html.twig
+
+# PedroTeixeira
+pedro_teixeira_grid:
+    defaults:
+        date:
+            use_datepicker:     true
+            date_format:        'dd/MM/yy'
+            date_time_format:   'dd/MM/yy HH:mm:ss'
+        pagination:
+            limit:              30
+        export:
+            enabled:            false
+
+# Zendstruck form
+zenstruck_form:
+    form_types:
+        ajax_entity_controller: true
+        ajax_entity: true
+
+# Snc Redis
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: %redis_path%
+        doctrine:
+            type: predis
+            alias: doctrine
+            dsn: %doctrine_redis_path%
+    session:
+        client: default
+        locking: false

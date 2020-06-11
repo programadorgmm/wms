@@ -1,0 +1,107 @@
+parameters:
+    natue.stock.statemachine.finite.class:                      Finite\StateMachine\StateMachine
+    natue.stock.item.manager.class:                             Natue\Bundle\StockBundle\Service\StockItemManager
+    natue.stock.item.logger.class:                              Natue\Bundle\StockBundle\Service\StockItemLogger
+    natue.stock.item.statemachine.class:                        Natue\Bundle\StockBundle\StateMachine\StockItem
+    natue.stock.inventory.manager.class:                        Natue\Bundle\StockBundle\Service\Inventory
+    natue.stock.inventory.item.manager.class:                   Natue\Bundle\StockBundle\Service\InventoryItem
+    natue.stock.purchaseorder.item.statemachine.class:          Natue\Bundle\StockBundle\StateMachine\PurchaseOrderItem
+    natue.stock.purchaseorder.item.xml.class:                   Natue\Bundle\StockBundle\Service\PurchaseOrderItemXml
+    natue.stock.purchaseorder.item.batchprocessing.class:       Natue\Bundle\StockBundle\Service\BatchProcessingPurchaseOrderItem
+    natue.stock.item.batchprocessing.class:                     Natue\Bundle\StockBundle\Service\BatchProcessingStockItem
+    natue.stock.purchaseorder.reception.class:                  Natue\Bundle\StockBundle\Service\PurchaseOrderReception
+    natue.stock.eventlistener.stock_item_listener.class:        Natue\Bundle\StockBundle\EventListener\StockItemListener
+    natue.stock.orderreqeust.manager.class:                     Natue\Bundle\StockBundle\Service\OrderRequest
+    natue.stock.purchaseorder.item.csv.class:                   Natue\Bundle\StockBundle\Service\PurchaseOrderItemCsv
+    natue.stock.last_invoice.synchronizer.class:                Natue\Bundle\StockBundle\Service\LastInvoiceSynchronizer
+    natue.stock.last_invoice.repository.class:                  Natue\Bundle\StockBundle\Repository\LastInvoiceRepository
+
+services:
+    natue.stock.eventlistener.stock_item:
+      class: %natue.stock.eventlistener.stock_item_listener.class%
+      arguments: [@service_container]
+      tags:
+          - { name: doctrine.event_listener, event: preUpdate }
+          - { name: doctrine.event_listener, event: prePersist }
+          - { name: doctrine.event_listener, event: postUpdate }
+
+    natue.stock.statemachine.finite:
+        class: %natue.stock.statemachine.finite.class%
+
+    natue.stock.item.statemachine:
+        class: %natue.stock.item.statemachine.class%
+        arguments: [@natue.stock.statemachine.finite, @doctrine.orm.entity_manager]
+
+    natue.stock.item.manager:
+        class: %natue.stock.item.manager.class%
+        arguments: [@doctrine, @security.context, @natue.stock.item.statemachine, %sell_items_with_expiration_greater_than%]
+
+    natue.stock.inventory.manager:
+        class: %natue.stock.inventory.manager.class%
+        arguments: [@doctrine, @natue.stock.inventory.item.manager]
+
+    natue.stock.inventory.item.manager:
+        class: %natue.stock.inventory.item.manager.class%
+        arguments: [@doctrine]
+
+    natue.stock.item.logger:
+        class: %natue.stock.item.logger.class%
+        arguments: [@doctrine, @security.context, %sell_items_with_expiration_greater_than%]
+
+    natue.stock.purchaseorder.item.statemachine:
+        class: %natue.stock.purchaseorder.item.statemachine.class%
+        arguments: [@natue.stock.statemachine.finite, @doctrine.orm.entity_manager]
+
+    natue.stock.purchaseorder.item.xml:
+        class: %natue.stock.purchaseorder.item.xml.class%
+        arguments: [@form.factory, @natue.stock.purchaseorder.item.batchprocessing, %nfe_xsd_file%, @doctrine, @natue.stock.last_invoice.repository.class]
+
+    natue.stock.purchaseorder.item.batchprocessing:
+        class: %natue.stock.purchaseorder.item.batchprocessing.class%
+        arguments: [@doctrine.orm.entity_manager]
+
+    natue.stock.item.batchprocessing:
+        class: %natue.stock.item.batchprocessing.class%
+        arguments: [@doctrine.orm.entity_manager]
+
+    natue.stock.orderrequest.manager:
+        class: %natue.stock.orderreqeust.manager.class%
+        arguments: [@doctrine, @security.context]
+
+    natue.stock.purchaseorder.reception:
+        class: %natue.stock.purchaseorder.reception.class%
+        arguments: [@doctrine, @security.context, @natue.stock.purchaseorder.item.statemachine, @natue.stock.item.manager, @natue.batch.processing, @natue.stock.item.logger]
+
+    natue.stock.purchaseorder.item.csv:
+        class: %natue.stock.purchaseorder.item.csv.class%
+        arguments: [@form.factory, @validator, @natue.stock.purchaseorder.item.batchprocessing]
+
+    natue.stock.item.grid:
+        class: Natue\Bundle\StockBundle\Grid\Datatable\ItemGrid
+        parent: sg_datatables.datatable.abstract
+
+    natue.stock.item.grid.builder:
+        class: Natue\Bundle\StockBundle\Grid\Datatable\ItemGridBuilder
+        arguments: [@natue.stock.item.grid]
+
+    natue.stock.item.repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - 'NatueStockBundle:StockItem'
+
+    natue.stock.purchaseorder.grid:
+        class: Natue\Bundle\StockBundle\Grid\Datatable\PurchaseOrderGrid
+        parent: sg_datatables.datatable.abstract
+
+    natue.stock.purchaseorder.grid.builder:
+        class: Natue\Bundle\StockBundle\Grid\Datatable\PurchaseOrderGridBuilder
+        arguments: [@natue.stock.purchaseorder.grid]
+
+    natue.stock.last_invoice.synchronizer:
+        class:      %natue.stock.last_invoice.synchronizer.class%
+        arguments:  [@doctrine.dbal.default_connection, @snc_redis.default]
+
+    natue.stock.last_invoice.repository.class:
+        class:      %natue.stock.last_invoice.repository.class%
+        arguments:  [@snc_redis.default]

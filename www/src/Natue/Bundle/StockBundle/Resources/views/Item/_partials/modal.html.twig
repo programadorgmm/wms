@@ -1,0 +1,78 @@
+<!-- Modal -->
+<div class="modal fade" id="myModal" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <form action="#" id="form" class="form-horizontal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{% trans %}Change Position{% endtrans %}</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_widget(form_move) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Close{% endtrans %}</button>
+                    <button type="button" class="btn btn-primary submit-move-position">
+                        <div class="text-button">
+                            {% trans %}Save changes{% endtrans %}
+                        </div>
+                        <div class="la-ball-fall hide">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% block javascripts %}
+<script type="text/javascript">
+$(function() {
+    $('.submit-move-position').on('click', function(){
+        $('.submit-move-position').blur();
+        $('.text-button').removeClass('hide');
+        $('.la-ball-fall').addClass('hide');
+
+        var oldPosition    = $('#natue_stockbundle_position_move_from_item_old_stock_position_id');
+        var newPosition    = $('#natue_stockbundle_position_move_from_item_new_stock_position_id');
+        var barcode        = $('#natue_stockbundle_position_move_from_item_barcode');
+        var sku            = $('#natue_stockbundle_position_move_from_item_sku');
+        var dateExpiration = $('#natue_stockbundle_position_move_from_item_dateExpiration');
+        var token          = $('#natue_stockbundle_position_move_from_item__token').val()
+
+        $('.text-button').addClass('hide');
+        $('.la-ball-fall').removeClass('hide');
+        $.post( "/stock/item/move-from-items", {
+            'natue_stockbundle_position_move_from_item[old_stock_position_id]' : oldPosition.attr('data-position-id'),
+            'natue_stockbundle_position_move_from_item[new_stock_position_id]' : newPosition.select2('val'),
+            'natue_stockbundle_position_move_from_item[barcode]'               : barcode.val(),
+            'natue_stockbundle_position_move_from_item[sku]'                   : sku.val(),
+            'natue_stockbundle_position_move_from_item[dateExpiration]'        : dateExpiration.val(),
+            'natue_stockbundle_position_move_from_item[_token]'                : token
+        })
+        .success(function(data) {
+            $('.text-button').removeClass('hide');
+            $('.la-ball-fall').addClass('hide');
+            $('#myModal').modal('hide');
+
+            $('#refresh-button').trigger( "click" );
+
+            newPosition.select2('val', '');
+
+            setTimeout(function () {
+                swal("Good job!", data.message, "success");
+            }, 5000);
+        })
+        .fail(function(data) {
+            $('.text-button').removeClass('hide');
+            $('.la-ball-fall').addClass('hide');
+
+            swal("Opss!", JSON.parse(data.responseText).message, "error");
+        });
+    });
+});
+</script>
+{% endblock javascripts %}

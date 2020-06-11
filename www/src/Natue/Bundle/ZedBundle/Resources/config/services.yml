@@ -1,0 +1,28 @@
+parameters:
+    natue.zed.eventlistener.product.class:  Natue\Bundle\ZedBundle\EventListener\Product
+    natue.zed.synchronizer.class:           Natue\Bundle\ZedBundle\Service\DbSynchronizer
+    natue.zed.synchronizer_log.class:       Natue\Bundle\ZedBundle\Service\DbSynchronizerLog
+    natue.zed.http_client.class:            Natue\Bundle\ZedBundle\Service\HttpClient
+    guzzle.http_client.class:               Guzzle\Http\Client
+
+services:
+    natue.zed.eventlistener.product:
+      class: %natue.zed.eventlistener.product.class%
+      arguments: [@service_container]
+      tags:
+          - { name: kernel.event_listener, event: stock_item.updated, method: onStockItemUpdate }
+    natue.zed.synchronizer:
+        class:      %natue.zed.synchronizer.class%
+        arguments:  [@doctrine.dbal.default_connection, @doctrine.dbal.zed_connection]
+
+    natue.zed.synchronizer_log:
+        class:      %natue.zed.synchronizer_log.class%
+        arguments:  [@doctrine]
+
+    guzzle.http_client:
+        class:      %guzzle.http_client.class%
+        arguments: [zed_host_name]
+
+    natue.zed.http_client:
+        class:      %natue.zed.http_client.class%
+        arguments: [@guzzle.http_client, %zed_host_name%]

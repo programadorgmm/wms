@@ -1,0 +1,40 @@
+parameters:
+    database_driver:                pdo_mysql
+    database_host:                  127.0.0.1
+    database_port:                  ~
+    database_name:                  circle_test
+    database_user:                  ubuntu
+    database_password:              ~
+    zed_database_driver:            pdo_mysql
+    zed_database_host:              127.0.0.1
+    zed_database_port:              ~
+    zed_database_name:              BR_development_zed
+    zed_database_user:              development
+    zed_database_password:          ~
+
+    zed_host_name:                  http://zed-development.natue.com.br/
+
+    mailer_transport:               smtp
+    mailer_host:                    127.0.0.1
+    mailer_user:                    ~
+    mailer_password:                ~
+
+    locale:                         en
+    secret:                         ThisTokenIsNotSoSecretChangeIt
+    date_format:                    d/m/Y
+    date_time_format:               d/m/Y  HH:mm:ss
+
+    file.handler.service:           natue.file.handler.fs
+
+    file.handler.s3.key:            ~
+    file.handler.s3.secret:         ~
+    file.handler.s3.bucket:         ~
+
+    node_base_path:                 node
+    node_module_path:               %kernel.root_dir%/../node_modules
+    genbarcode_path:                /usr/local/bin/genbarcode
+
+    aws.region:                     'us-east-1'
+    aws.environment:                ~
+    aws.key:                        ~
+    aws.secret:                     ~

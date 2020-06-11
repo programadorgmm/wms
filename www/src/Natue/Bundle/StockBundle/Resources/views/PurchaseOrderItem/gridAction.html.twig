@@ -1,0 +1,17 @@
+{% spaceless %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_ITEM_UPDATE')") and row.status == 'received' %}
+        <a href="{{ path('stock_purchase_order_cost_average_update', {'purchaseOrderId': row[0].purchaseOrder.id, 'cost' :row[0].cost, 'sku' :row.productSku}) }}"
+           class="btn btn-default btn-xs"><i class="glyphicon glyphicon-pencil"></i> {% trans %}Fix Item Cost{% endtrans %}</a>
+    {% endif %}
+
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_ITEM_UPDATE')") and row.status == 'incoming' %}
+        <a href="{{ path('stock_purchase_order_item_update', {'purchaseOrderId': row[0].purchaseOrder.id, 'cost' :row[0].cost, 'sku' :row.productSku}) }}"
+           class="btn btn-default btn-xs"><i class="glyphicon glyphicon-pencil"></i> {% trans %}Edit{% endtrans %}</a>
+    {% endif %}
+
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_ITEM_DELETE')") %}
+        <a href="{{ path('stock_purchase_order_item_delete', {'purchaseOrderId': row[0].purchaseOrder.id, 'cost' :row[0].cost, 'sku' :row.productSku, 'status' : row.status}) }}"
+           onclick="javascript:return confirm('{% trans %}Are you sure?{% endtrans %}');" class="btn btn-danger btn-xs"><i
+                    class="glyphicon glyphicon-trash"></i> {% trans %}Delete{% endtrans %}</a>
+    {% endif %}
+{% endspaceless %}

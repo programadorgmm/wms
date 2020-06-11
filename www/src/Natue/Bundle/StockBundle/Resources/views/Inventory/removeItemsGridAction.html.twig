@@ -1,0 +1,6 @@
+{% spaceless %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_INVENTORY_CREATE')") %}
+        <a href="{{ path('stock_inventory_remove_items', {'inventoryId': row.id, 'zedProductId': row.zedProductId}) }}" class="btn btn-default btn-xs">
+            <i class="glyphicon glyphicon-remove-circle"></i>{% trans %} Delete{% endtrans %}</a>
+    {% endif %}
+{% endspaceless %}

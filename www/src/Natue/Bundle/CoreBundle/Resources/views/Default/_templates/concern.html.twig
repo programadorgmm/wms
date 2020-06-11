@@ -1,0 +1,84 @@
+<script id="table-{{ status }}" type="text/x-handlebars-template">
+    <div class="well-table">
+        <h4 class="status-button" href="#table-{{ status }}-data" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="#table-{{ status }}-data">
+            {{ status|replace({'_' : ' '})|ucwords|trans }} {% verbatim %}({{total}}){% endverbatim %}
+            {% if description %}
+                <span>{{ description|trans }}</span>
+            {% endif %}
+        </h4>
+
+        <div id="table-{{ status }}-data" class="collapse">
+            <table class="table table-hover table-striped">
+                <thead>
+                <th> {% trans %} Day {% endtrans %}</th>
+                {% verbatim %}
+                    {{#each headers}}
+                        <th>{{ this }}</th>
+                    {{/each}}
+                {% endverbatim %}
+                </thead>
+                <tbody>
+                {% verbatim %}
+                {{#each dates}}
+                <tr data-date="{{@key}}">
+                    <td>{{formatted}}</td>
+                    {{#each providers}}
+                    <td>
+                      {{#if this }}
+                        <a href="#{{../../status}}-{{../date}}-{{lookup ../../headers @index}}" data-toggle="collapse" role="button" aria-controls="#{{../../status}}-{{../date}}-{{lookup ../../headers @index}}">{{this}}</a>
+                      {{else}}
+                        0
+                      {{/if}}
+                    </td>
+                    {{/each}}
+                </tr>
+                {{/each}}
+                {% endverbatim %}
+                </tbody>
+            </table>
+
+            {% if withOrderList is defined %}
+
+                    {% verbatim %}
+                    {{#each list}}
+                        <div id="{{../status}}-{{date}}-{{provider_key}}" class="collapse">
+                            <h4>{{provider}}: {{formatted}}</h4>
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    {% endverbatim %}
+                                    <tr>
+                                        <td>{% trans %}Order{% endtrans %}</td>
+                                        {% if withoutOperator is not defined %}
+                                            <td>{% trans %}Operator{% endtrans %}</td>
+                                        {% endif %}
+                                        <td>{% trans %}Approval Date{% endtrans %}</td>
+                                        {% if withPickingList is defined %}
+                                            <td>{% trans %}Picking List{% endtrans %}</td>
+                                        {% endif %}
+                                    </tr>
+                                    {% verbatim %}
+                                </thead>
+                                <tbody>
+                                    {{#each orders}}
+                                    <tr>
+                                      <td><a href="https://zed.natue.com.br/sales/order-details/index/id/{{zed_order}}" target="_blank">{{increment_id}}</a></td>
+                                      {% endverbatim %}
+                                      {% if withoutOperator is not defined %}
+                                      {% verbatim %}<td>{{operator_name}}</td>{% endverbatim %}
+                                      {% endif %}
+                                      {% verbatim %}<td class="alert-{{status}}">{{assigned_at}}</td>{% endverbatim %}
+                                      {% if withPickingList is defined %}
+                                      {% verbatim %}<td><a href="/shipping/download/picking-list/{{picking_list}}" target="_blank">{% endverbatim %}{% trans %}Open{% endtrans %}{% verbatim %}</a></td>{% endverbatim %}
+                                      {% endif %}
+                                      {% verbatim %}
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    {{/each}}
+                    {% endverbatim %}
+            {% endif %}
+        </div>
+    </div>
+</script>

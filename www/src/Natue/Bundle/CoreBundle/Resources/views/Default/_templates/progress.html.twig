@@ -1,0 +1,12 @@
+<script id="progress-panel" type="text/x-handlebars-template">
+    <ul class="progress-panel">
+        <li>
+            <h4>{% trans %}In Progress Label{% endtrans %}</h4>
+            {% verbatim %}<span>{{in_progress}}</span>{% endverbatim %}
+        </li>
+        <li>
+            <h4>{% trans %}Assigned Label{% endtrans %}</h4>
+            {% verbatim %}<span>{{assigned}}</span>{% endverbatim %}
+        </li>
+    </ul>
+</script>

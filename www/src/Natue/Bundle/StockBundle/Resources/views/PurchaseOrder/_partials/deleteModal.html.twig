@@ -1,0 +1,29 @@
+<!-- Modal -->
+<div class="modal fade" id="myDeleteModal" aria-labelledby="myDeleteModalLabel">
+    <div class="modal-dialog" role="document">
+        <form action="#" id="form" class="form-horizontal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myDeleteModalLabel">{% trans %}Delete Purchase Order{% endtrans %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div>Do you really want to delete this item?</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
+                    <a href="#" class="btn btn-danger" id="delete-purchase-order-from-modal">
+                        <div class="text-button">
+                            {% trans %}Delete{% endtrans %}
+                        </div>
+                        <div class="la-ball-fall hide">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+parameters:
+  natue.roles.class:                Natue\Bundle\UserBundle\Service\Roles
+  natue.util.user_callable.class:   Natue\Bundle\UserBundle\Util\UserCallable
+
+services:
+  natue.roles:
+    class: %natue.roles.class%
+    arguments: [ %natue.roles.data% ]
+
+  natue.util.user_callable:
+    class: %natue.util.user_callable.class%
+    arguments: [ @service_container ]

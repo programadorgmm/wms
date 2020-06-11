@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Packing Orders{% endtrans %}
+{% endblock headline %}
+
+{% block content %}
+    <form action="{{ path('shipping_confirm_packed_order') }}" {{ form_enctype(form) }}
+          method="POST"
+          class="form-horizontal">
+
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-primary ">{% trans %}Select{% endtrans %}</button>
+            </div>
+        </div>
+    </form>
+  {% block javascripts %}
+    <script type="text/javascript">
+      $(function() {
+        $("#natue_shippingbundle_packing_orders_form_order_increment_id").focus();
+      });
+    </script>
+  {% endblock %}
+{% endblock content %}

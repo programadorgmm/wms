@@ -1,0 +1,77 @@
+{% extends '::base.html.twig' %}
+
+{% block page_header %}
+    <style>
+        .pedroteixeira-grid-wrapper #productSku,
+        .pedroteixeira-grid-wrapper #cost {
+            width: 5%;
+        }
+
+        .pedroteixeira-grid-wrapper #qty,
+        .pedroteixeira-grid-wrapper #icms,
+        .pedroteixeira-grid-wrapper #icmsSt,
+        .pedroteixeira-grid-wrapper #invoiceCost {
+            width: 8%;
+        }
+
+        .pedroteixeira-grid-wrapper th:last-child {
+            width: 13%;
+        }
+
+        .pedroteixeira-grid-wrapper #productSku input,
+        .pedroteixeira-grid-wrapper #cost input,
+        .pedroteixeira-grid-wrapper #invoiceCost input {
+            width: 90%;
+        }
+
+        .pedroteixeira-grid-wrapper input[name="qty[]"] {
+            width: 40% !important;
+        }
+    </style>
+
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_PURCHASE_ORDER_ITEM_CREATE')") %}
+        <a href="{{ path('stock_purchase_order_item_create', {'id': purchaseOrder.id}) }}"
+           class="btn btn-primary pull-right">{% trans %}Add{% endtrans %}</a>
+    {% endif %}
+
+    <h2>{% trans %}Purchase Order{% endtrans %}: {{ purchaseOrder.invoiceKey }}</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>{% trans %}Created At{% endtrans %}: {{ purchaseOrder.createdAt|date }}</p>
+            <p>{% trans %}Actual Delivery Date{% endtrans %}: {{ purchaseOrder.dateActualDelivery|date }}</p>
+            <p>{% trans %}Volumes Received{% endtrans %}: {{ purchaseOrder.volumesReceived }}</p>
+            <p>{% trans %}Volumes Expected{% endtrans %}: {{ purchaseOrder.volumesTotal }}</p>
+        </div>
+    </div>
+
+
+    {% if formCsv %}
+        <form action="{{ path('stock_purchase_order_item_csv', {'id': purchaseOrder.id}) }}"
+              method="post" {{ form_enctype(form) }} class="well form-horizontal form-inline">
+            {{ form_widget(formCsv) }}
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input class="btn" id="stock_purchase_order_item_csv_submit" type="submit"/>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+
+    {% if form %}
+        <form action="{{ path('stock_purchase_order_item_xml', {'id': purchaseOrder.id}) }}"
+              method="post" {{ form_enctype(form) }} class="well form-horizontal form-inline">
+            {{ form_widget(form) }}
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input class="btn" id="stock_purchase_order_item_xml_submit" type="submit"/>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+
+{% endblock page_header %}
+
+{% block content %}
+    {{ pedroteixeira_grid(grid) }}
+{% endblock content %}

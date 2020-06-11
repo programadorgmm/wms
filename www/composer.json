@@ -1,0 +1,104 @@
+{
+  "name" : "natuelabs/wms",
+  "type" : "project",
+  "license": "proprietary",
+  "description" : "Natue WMS",
+  "autoload" : {
+    "psr-0" : {
+      "" : "src/"
+    }
+  },
+  "require" : {
+    "php" : ">=5.6",
+
+    "symfony/symfony" : "2.6.*",
+    "symfony/assetic-bundle" : "~2.3",
+    "symfony/swiftmailer-bundle" : "~2.3",
+    "symfony/monolog-bundle" : "~2.4",
+    "symfony/event-dispatcher" : "~2.4",
+
+    "sensio/distribution-bundle" : "~2.3",
+    "sensio/framework-extra-bundle" : "~3.0",
+    "sensio/generator-bundle" : "~2.3",
+
+    "doctrine/orm" : "2.4.*",
+    "doctrine/doctrine-bundle" : "1.3.*",
+    "doctrine/doctrine-fixtures-bundle": "2.2.*",
+    "doctrine/doctrine-migrations-bundle" : "@dev",
+    "doctrine/migrations" : "@dev",
+
+    "jms/security-extra-bundle" : "~1.5",
+    "jms/di-extra-bundle" : "~1.4",
+
+    "twig/extensions" : "~1.0",
+
+    "mopa/bootstrap-bundle" : "v3.0.0-beta4",
+    "twbs/bootstrap" : "v3.2.0",
+
+    "knplabs/knp-menu" : "~2.0",
+    "knplabs/knp-menu-bundle" : "~2.0",
+    "knplabs/knp-paginator-bundle" : "~2.4",
+    "knplabs/knp-snappy-bundle" : "~1.2",
+
+    "hackzilla/barcode-bundle" : "~1.0",
+
+    "friendsofsymfony/user-bundle" : "~1.3",
+
+    "pedro-teixeira/grid-bundle" : "~1.0",
+
+    "aws/aws-sdk-php" : "~2.6",
+
+    "yohang/finite" : "dev-master#c37d98e33c5283234a7d0ab6adaf99c6ac59c0f6",
+
+    "phpunit/phpunit" : "~4.1",
+    "codegyre/robo" : "0.4.6",
+    "squizlabs/php_codesniffer" : "~1",
+
+    "zenstruck/form-bundle" : "~1.4",
+    "zendframework/zend-crypt" : "~2.0,!=2.1.1",
+    "zendframework/zend-stdlib" : "~2.0,!=2.1.1",
+
+    "pinano/select2-bundle": "3.4.5",
+
+    "ddeboer/data-import-bundle": "~0.1",
+
+    "incenteev/composer-parameter-handler": "~2.0",
+    "snc/redis-bundle": "1.1.x-dev",
+    "predis/predis": "^1.0",
+    "sg/datatablesbundle": "^0.11.0",
+    "friendsofsymfony/jsrouting-bundle": "^1.6",
+    "natuelabs/danphpe": "1.0.2"
+  },
+  "scripts" : {
+    "post-install-cmd" : [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+      "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
+    ],
+    "post-update-cmd" : [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+      "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
+    ]
+  },
+  "config" : {
+    "bin-dir" : "bin"
+  },
+  "extra" : {
+    "symfony-app-dir" : "app",
+    "symfony-web-dir" : "web",
+    "symfony-assets-install": "symlink",
+    "incenteev-parameters" : {
+      "file" : "app/config/parameters.yml"
+    },
+    "branch-alias" : {
+      "dev-master" : "2.4-dev"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+parameters:
+    database_driver:                pdo_mysql
+    database_host:                  wms_database
+    database_port:                  3306
+    database_name:                  development_wms
+    database_user:                  root
+    database_password:              natue
+    zed_database_driver:            pdo_mysql
+    zed_database_host:              zed-development.natue.com.br
+    zed_database_port:              ~
+    zed_database_name:              BR_development_zed
+    zed_database_user:              development
+    zed_database_password:          ~
+
+    zed_host_name:                  http://zed-development.natue.com.br/
+
+    mailer_transport:               smtp
+    mailer_host:                    127.0.0.1
+    mailer_user:                    ~
+    mailer_password:                ~
+
+    locale:                         pt_BR
+    secret:                         ThisTokenIsNotSoSecretChangeIt
+    date_format:                    d/m/Y
+    date_time_format:               d/m/Y  HH:mm:ss
+
+    file.handler.service:           natue.file.handler.fs
+
+    file.handler.s3.key:            ~
+    file.handler.s3.secret:         ~
+    file.handler.s3.bucket:         ~
+
+    pdo.db_options:
+        db_table:                   session
+        db_id_col:                  session_id
+        db_data_col:                session_data
+        db_time_col:                session_time
+        db_lifetime_col:            session_lifetime
+
+    node_base_path:                 /usr/bin/nodejs
+    node_module_path:               %kernel.root_dir%/../node_modules
+    genbarcode_path:                /usr/local/bin/genbarcode
+    shipping_picking_list_path:     /data/pdf/ShippingPickingList/
+    pdf_expedition_labels_path:     /data/pdf/ExpeditionLabels/
+    pdf_invoices_path:              /data/pdf/Invoices/
+    redis_path:                     redis://wms_redis:6379
+    doctrine_redis_path:            redis://wms_redis:6379/2
+    nfe_xsd_file:                   '%kernel.root_dir%/Resources/nfe/procNFe_v3.10.xsd'
+    limit_keys:                     100
+
+    prod_database_driver:           pdo_mysql
+    prod_database_host:             wmsprod.cxft1ifr1zku.sa-east-1.rds.amazonaws.com
+    prod_database_port:             3306
+    prod_database_name:             BR_wms_prod
+    prod_database_user:             wms
+    prod_database_password:         nnBQk6uLYQ3mFST
+
+    taxman.uri:                     http://taxman-testing.elasticbeanstalk.com/
+
+    purchase_order_expire_at: '+10 days'
+
+    aws.region:                     'us-east-1'
+    aws.environment:                ~
+    aws.key:                        ~
+    aws.secret:                     ~
+
+    sell_items_with_expiration_greater_than:  '+11 days'

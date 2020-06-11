@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block page_header %}
+    {% if is_expr_granted("hasAnyRole('ROLE_ADMIN','ROLE_STOCK_INVENTORY_CREATE')") %}
+        <a href="{{ path('stock_inventory_create') }}" class="btn btn-primary pull-right">
+            {% trans %}New Inventory{% endtrans %}</a>
+    {% endif %}
+
+    <h1>{% trans %}Inventorisation{% endtrans %}</h1>
+{% endblock page_header %}
+
+{% block content %}
+    {{ pedroteixeira_grid(grid) }}
+{% endblock content %}

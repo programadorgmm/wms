@@ -1,0 +1,19 @@
+<a href="{{ path('shipping_download_picking_list', {'shippingPickingListId': row.id}) }}" target="_blank" class="btn btn-default btn-xs">
+    <span class="glyphicon glyphicon-download-alt"></span>
+    {% trans %}Download Picking List{% endtrans %}
+</a>
+
+<a href="{{ path('shipping_download_expedition_labels', {'shippingPickingListId': row.id}) }}" target="_blank" class="btn btn-default btn-xs">
+    <span class="glyphicon glyphicon-download-alt"></span>
+    {% trans %}Download Expedition Labels{% endtrans %}
+</a>
+
+<a href="{{ path('shipping_download_invoices', {'shippingPickingListId': row.id}) }}" target="_blank" class="btn btn-default btn-xs">
+    <span class="glyphicon glyphicon-download-alt"></span>
+    {% trans %}Download Invoices{% endtrans %}
+</a>
+
+<a href="{{ path('shipping_picking_regenerate_lists', {'shippingPickingListId': row.id}) }}" class="btn btn-default btn-xs">
+    <span class="glyphicon glyphicon-refresh"></span>
+    {% trans %}Regenerate PDFs{% endtrans %}
+</a>

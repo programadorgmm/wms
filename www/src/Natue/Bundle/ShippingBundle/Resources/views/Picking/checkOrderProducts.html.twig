@@ -1,0 +1,123 @@
+{% extends '::base.html.twig' %}
+
+{% block headline %}
+    {% trans %}Picking list and labels checking{% endtrans %}<br>
+    {% trans %}Order{% endtrans %}: {{ order.incrementId }}<br>
+    {% trans %}Customer{% endtrans %}: {{ order.customerFirstname }} {{ order.customerLastname }}<br>
+    {#{% trans %}Operator{% endtrans %}: {{ order.orderExtended.shippingPickingList.user.name }}#}
+    {% if order.fkSubscription %}
+        <div class="pull-right">
+            <mark>{% trans %} NATUEBOX {% endtrans %}<mark>
+        </div>
+    {% endif %}
+{% endblock headline %}
+
+{% block flashes %}
+  {% if app.session.flashbag.has('missingItems') %}
+    <div class="span12">
+        <div class="alert alert-danger">
+          <p>{{ app.session.flashbag.get('errorMessage')|join }}:</p>
+          <ul>
+              {% for message in app.session.flashbag.get('missingItems') %}
+                <li>{{ message }}</li>
+              {% endfor %}
+          </ul>
+        </div>
+    </div>
+  {% endif %}
+  {% if app.session.flashbag.has('danger') %}
+      <div class="span12">
+          <div class="alert alert-danger">
+              <p>{{ app.session.flashbag.get('danger')|join }}</p>
+          </div>
+      </div>
+  {% endif %}
+{% endblock flashes %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <h3>{% trans %}Scan Item Barcode{% endtrans %}</h3>
+            <form action="{{ path('shipping_picking_validate_order_product_barcode', {'orderId': order.id}) }}" method="post" {{ form_enctype(form) }} >
+
+                {{ form_widget(form) }}
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button id="button-validate" type="submit" class="btn btn-primary">{% trans %}Validate{% endtrans %}</button>
+                    </div>
+                    <div id="processing" style="display: none;">{% trans %}Processing{% endtrans %}...<img src="/images/select2-spinner.gif"></div>
+                </div>
+            </form>
+        </div>
+
+
+
+        <div class="col-md-6">
+            <h3>{% trans %}Progress{% endtrans %}</h3>
+            <span>{% trans %}Loaded Items{% endtrans %}: {{ conferredItems }} {% trans %}of{% endtrans %} {{ totalItems }}</span>
+
+            {% if scannedItems %}
+                <p>
+                  <a href="{{ path('shipping_picking_confirm_order_checking', {'orderId': order.id}) }}" class="btn btn-primary">{% trans %}Confirm checking{% endtrans %}</a>
+                  <a href="{{ path('shipping_picking_cancel_order_checking', {'orderId': order.id}) }}" class="btn btn-default">{% trans %}Cancel{% endtrans %}</a>
+                </p>
+
+                <p>{% trans %}After successful verification the invoice will created automatically{% endtrans %}</p>
+
+                <table class="table table-hover table-bordered pedroteixeira-grid-table">
+                    <thead>
+                    <tr>
+                        <th>{% trans %}Barcode{% endtrans %}</th>
+                        <th>{% trans %}Qty{% endtrans %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for barcode, qty in scannedItems %}
+                            <tr>
+                                <td>{{ barcode }}</td>
+                                <td>{{ qty }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+  {% block javascripts %}
+    <script type="text/javascript">
+      $(function() {
+        if (!$(".alert-danger").length) {
+          $("#natue_shippingbundle_picking_order_productbarcode_form_code").focus();
+        }
+
+        $('.btn-primary').click(function(){
+            $('#processing').show();
+        });
+
+        $('a.btn').on('click', function() {
+          $(this).attr('disabled', 'disabled');
+        });
+
+          $("#button-validate").click(function() {
+               setTimeout(function () {
+                 $('button').bind('keypress', function(e)
+                 {
+                     if(e.which == 13 || e.keyCode == 13){
+                         return false;
+                     }
+                 });
+                   $('#button-validate').attr('disabled', 'disabled');
+                   $('#button-validate').hide();
+                   $('#processing').show();
+               }, 100);
+              $('#button-validate').removeAttr('disabled');
+              location.reload();
+          });
+
+      });
+    </script>
+  {% endblock %}
+{% endblock content %}
