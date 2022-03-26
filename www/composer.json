@@ -50,7 +50,7 @@
 
     "yohang/finite" : "dev-master#c37d98e33c5283234a7d0ab6adaf99c6ac59c0f6",
 
-    "phpunit/phpunit" : "~4.1",
+    "phpunit/phpunit" : "~5.7",
     "codegyre/robo" : "0.4.6",
     "squizlabs/php_codesniffer" : "~1",
 
